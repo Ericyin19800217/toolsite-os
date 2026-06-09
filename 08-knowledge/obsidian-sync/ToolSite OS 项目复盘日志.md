@@ -900,3 +900,53 @@ Free Multi-Carrier Dimensional Weight Calculator
 - 《我终于从工具站选题进入建站准备，靠的不是灵感而是证据》
 - 《第一个 MVP Brief 是怎么把聊天变成产品任务的》
 - 《AI 工具站最怕一直验证不动手：我是怎么设停止点的》
+
+## 2026-06-10：技术栈决策与 Git 基线复盘
+
+### 关键进展
+
+- 确认第一个工具站采用 A 方案：
+
+```text
+Astro + React Islands + TypeScript + Tailwind + Vitest
+```
+
+- 创建技术设计文档：`02-site-builds/designs/2026-06-10-dim-weight-calculator-technical-design.md`。
+- 确定站点工程目录：`02-site-builds/dim-weight-calculator/`。
+- 初始化 ToolSite OS Git 仓库。
+- 创建第一次项目基线提交：
+
+```text
+2874492 chore: initialize ToolSite OS project
+```
+
+### 决策理由
+
+第一个 MVP 是 SEO 工具站，而不是复杂 SaaS。
+
+Astro 更适合内容页和长尾页面矩阵；React Islands 负责计算器局部交互；TypeScript 负责公式配置和计算逻辑的可靠性；Vitest 负责公式和单位换算测试。
+
+### 走过的弯路
+
+一开始项目正式启动时没有第一时间初始化 Git。虽然已经在讨论中意识到这个问题，但真正进入建站准备时才补上。
+
+修正：从第一个实际站点开始前完成 Git 基线提交，后续所有关键文档和代码变更都应纳入版本管理。
+
+### 踩过的坑
+
+- 沙盒环境不允许直接写 `.git`，`git init` 和 `git add` 都需要提升权限。
+- Git 自动使用本机用户名邮箱作为提交身份：`Eric <yinbing@EricdeMacBook-Pro.local>`。后续如果要更正式，可以配置全局或项目级 `user.name` 和 `user.email`。
+
+### 新原则
+
+- 技术栈必须服务当前阶段，不为了未来可能的 SaaS 复杂度提前上重框架。
+- 工程源码必须和研究文档分开，但仍放在同一个项目仓库里。
+- 第一个工具站工程目录要可复制，未来第二个、第三个工具站可以沿用结构。
+- 进入代码实现前必须有：MVP Brief、技术设计、Git 基线。
+
+### 自媒体素材
+
+- 《为什么我第一个工具站没有选 Next.js，而是选 Astro？》
+- 《AI 工具站从研究到开工前，我补上的最后一块地基：Git》
+- 《技术栈不是越强越好，而是越贴合当前阶段越好》
+- 《一个小工具站为什么也要写技术设计文档？》
