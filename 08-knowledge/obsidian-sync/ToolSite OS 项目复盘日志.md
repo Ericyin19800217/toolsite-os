@@ -950,3 +950,50 @@ Astro 更适合内容页和长尾页面矩阵；React Islands 负责计算器局
 - 《AI 工具站从研究到开工前，我补上的最后一块地基：Git》
 - 《技术栈不是越强越好，而是越贴合当前阶段越好》
 - 《一个小工具站为什么也要写技术设计文档？》
+
+## 2026-06-10：第一个 MVP 实施计划复盘
+
+### 关键进展
+
+- 创建实施计划：`02-site-builds/plans/2026-06-10-dim-weight-calculator-implementation-plan.md`。
+- 实施计划按 TDD 顺序拆分为：
+  - Astro App Skeleton。
+  - Formula Source Data。
+  - Calculation Logic With Tests。
+  - Unit Conversion and Validation。
+  - Calculator React Island。
+  - Layout and Source Note Components。
+  - Main Tool Page。
+  - Carrier Long-Tail Pages。
+  - Final Verification。
+- 提交实施计划：
+
+```text
+cdbaf4a docs: add dimensional weight calculator implementation plan
+```
+
+### 形成的新边界
+
+从这一刻开始，项目不再是“选题研究”，而是进入可执行工程阶段。
+
+实施顺序必须先做公式和测试，再做页面。原因是这个工具的可信度来自计算正确和来源清楚，而不是页面先好看。
+
+### 踩过的坑
+
+写计划时很容易把“大方向”写成“下一步做页面”，但这对 Agent 执行不够。
+
+修正：每个任务都要具体到文件路径、测试命令、预期结果和提交点。这样后续即使换一个执行线程，也能接着做，不会丢上下文。
+
+### 新原则
+
+- 第一个工具站要用 TDD 保护公式逻辑。
+- 实施计划必须可交给另一个 Agent 执行，而不是只有当前聊天能看懂。
+- 每个任务都要有提交点，避免一次性大改不可回滚。
+- UI 之前先保证公式、单位和输入校验可测试。
+
+### 自媒体素材
+
+- 《AI 工具站开始写代码前，我为什么又多写了一份实施计划？》
+- 《第一个工具站不先做页面，而是先写公式测试》
+- 《一个可执行的 AI Agent 计划应该长什么样？》
+- 《从选题到代码前夜：我把工具站拆成了 9 个任务》
