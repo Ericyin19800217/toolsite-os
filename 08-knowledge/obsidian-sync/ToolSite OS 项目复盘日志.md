@@ -997,3 +997,69 @@ cdbaf4a docs: add dimensional weight calculator implementation plan
 - 《第一个工具站不先做页面，而是先写公式测试》
 - 《一个可执行的 AI Agent 计划应该长什么样？》
 - 《从选题到代码前夜：我把工具站拆成了 9 个任务》
+
+## 2026-06-10：第一个工具站 MVP 实现复盘
+
+### 关键进展
+
+- 完成第一个 Astro 工具站 MVP：`02-site-builds/dim-weight-calculator/`。
+- 完成 5 个页面：
+  - `/dimensional-weight-calculator/`
+  - `/fedex-dimensional-weight-calculator/`
+  - `/ups-dimensional-weight-calculator/`
+  - `/usps-dimensional-weight-calculator/`
+  - `/dhl-volumetric-weight-calculator/`
+- 完成公式、单位换算、输入校验测试。
+- 最终自动验证：
+
+```text
+npm run test：3 files passed, 30 tests passed
+npm run build：5 page(s) built, 0 errors, 0 warnings
+Playwright QA：5 个页面 x 3 个视口全部 200，无 console error
+```
+
+### 走过的弯路
+
+1. 子代理执行时多次出现“文件已写入但不返回、不提交”的情况。
+
+   修正：每次都先检查 Git 状态和文件内容，再决定接管，而不是重复派同一个任务。
+
+2. `package.json` 最初使用 `latest`，安装到了 Astro 6 / Vite 8 / Tailwind 4.3 组合，主页面构建时报：
+
+```text
+Missing field `tsconfigPaths` on BindingViteResolvePluginConfig.resolveOptions
+```
+
+   修正：固定到稳定大版本组合 Astro 5 / Vite 6 / Tailwind 4，构建通过。
+
+3. Astro telemetry 在沙盒里尝试写入用户目录，导致构建失败。
+
+   修正：在 npm scripts 中加入 `ASTRO_TELEMETRY_DISABLED=1`。
+
+4. 浏览器 QA 发现 `/favicon.ico` 404。
+
+   修正：增加 `public/favicon.svg`，并在 `ToolLayout.astro` 中声明 favicon。
+
+### 新原则
+
+- 前端依赖不要无脑使用 `latest`，尤其是 Astro / Vite / Tailwind 这类构建链组合。
+- Agent 子任务即使卡住，也可能已经写入了有效文件；接管前必须先看状态。
+- 工具站第一版也必须做浏览器 QA，单元测试和 build 不能替代真实页面渲染。
+- QA 产物如截图、Playwright 日志和构建产物应进入 `.gitignore`，不要污染仓库。
+- 公式型工具先测公式，再做 UI，再做页面，这个顺序是正确的。
+
+### 自媒体素材
+
+- 《第一个 AI 工具站终于跑起来了：我踩了哪些坑？》
+- 《为什么 package.json 里不要随便写 latest？》
+- 《AI Agent 写代码不等于不用验收：我的第一个工具站 QA 过程》
+- 《从选题到第一个页面：一个小工具站的真实开发流水账》
+- 《子代理卡住怎么办？我学会了先看 Git 状态》
+
+### 下一步
+
+- 进入部署准备：
+  - 选择 Cloudflare Pages 或 Vercel。
+  - 配置部署命令和输出目录。
+  - 提交 Search Console。
+  - 建立收录和流量追踪台账。
