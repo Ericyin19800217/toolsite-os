@@ -43,7 +43,7 @@ docs/superpowers/specs/*-design.md
 当前执行说明：
 
 - Product Design 插件文件已安装在本机插件缓存中。
-- 2026-06-10 排查发现：`~/.codex/config.toml` 原本只启用了 `browser@openai-bundled` 和 `chrome@openai-bundled`，没有启用 `product-design@openai-curated-remote`，因此当前会话没有暴露 Product Design skills。
+- 2026-06-10 排查发现：`~/.codex/config.toml` 原本只启用了 `browser@openai-bundled` 和 `chrome@openai-bundled`，没有启用 `product-design@openai-curated-remote`，因此当时会话没有暴露 Product Design skills。
 - 已追加配置：
 
 ```toml
@@ -51,9 +51,39 @@ docs/superpowers/specs/*-design.md
 enabled = true
 ```
 
-- 当前线程的 skill 列表不会热更新；需要新开线程或重启 Codex 后验证 Product Design 是否进入可用 skill 列表。
-- 如果新线程里 Product Design 仍未出现，不能假装已直接调用；此时继续优先用 `impeccable` 执行产品 UI/UX 设计、审查和打磨，并继续排查插件加载机制。
+- 2026-06-10 后续会话已验证：Product Design skills 已进入当前可用 skill 列表，包括 `product-design:index`、`get-context`、`ideate`、`image-to-code`、`audit`、`design-qa` 等。
+- 如果未来会话里 Product Design 再次未出现，不能假装已直接调用；此时继续优先用 `impeccable` 执行产品 UI/UX 设计、审查和打磨，并继续排查插件加载机制。
 - Product Design 的 skill 文档仍可作为流程参考，尤其是 `get-context`、`audit`、`design-qa` 的设计闸门思想。
+
+## 插件可用性预检
+
+每进入一个关键工作站前，先做插件可用性预检，避免再次出现“流程里写了调用，但实际没有介入”的问题。
+
+预检分三层：
+
+```text
+插件是否已下载到本机缓存
+→ 插件是否在配置或当前运行环境中启用
+→ 当前会话是否真正暴露出对应 skill / MCP tool / app surface
+```
+
+最低检查项：
+
+- 查看当前会话可用 skill 列表，确认目标插件的 skill 名称实际存在。
+- 对有 MCP 的插件，确认当前工具列表里有可调用工具。
+- 对只有 skill、没有 MCP 的插件，例如 Product Design，重点确认 skill 是否出现在当前会话。
+- 对需要登录态的网站操作，优先确认 Browser / Chrome 是否可用。
+- 如果插件未暴露，先记录原因和替代方案，再继续推进，不能在文档中写“已调用”。
+
+当前状态判断：
+
+| 插件 | 当前风险 | 判断 |
+|---|---:|---|
+| Product Design | 低到中 | 已启用并在后续会话暴露 skill；但它是 skill-only 插件，没有 MCP tool，因此每个关键 UI 节点前仍需确认 skill 存在 |
+| Creative Production | 低 | 当前会话已暴露 Creative Production skills，并且有 `render_moodboard_board_widget` 等 MCP 工具，不属于 Product Design 当时那类问题 |
+| Browser / Chrome | 低 | 已在配置中启用，适合本地页面 QA 和登录态网站操作 |
+| HyperFrames | 低 | 已有独立 skills，同时插件缓存存在；使用前按视频任务类型选择对应 skill |
+| Documents / Spreadsheets / Presentations | 中 | 插件缓存存在，但当前是否暴露为直接工具取决于桌面运行环境；进入文档、表格、PPT 工作站前需要单独预检 |
 
 ## 全量 Skill 盘点
 

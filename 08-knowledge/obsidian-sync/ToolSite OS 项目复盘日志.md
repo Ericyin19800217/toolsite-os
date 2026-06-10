@@ -3,7 +3,7 @@ type: project-review
 project: ToolSite OS
 status: active
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 tags:
   - ToolSiteOS
   - AI工具站
@@ -1162,3 +1162,49 @@ enabled = true
 - 新开线程或重启 Codex 后验证 Product Design 是否进入可用 skill 列表。
 - 如果仍未出现，继续排查 Codex App 是否需要通过 UI 手动启用远程插件。
 - 在验证前，当前线程仍用 `impeccable` 承担设计闸门，不能宣称已经直接调用 Product Design。
+
+## 2026-06-10：插件可用性预检机制复盘
+
+### 关键进展
+
+- 后续会话已验证 Product Design skills 已进入当前可用 skill 列表。
+- Product Design 当前可用能力包括 `index`、`get-context`、`ideate`、`image-to-code`、`audit`、`design-qa` 等。
+- Creative Production 当前也已暴露对应 skills，并且拥有 `render_moodboard_board_widget` 等 MCP 工具，和 Product Design 当时的问题不是同一类。
+- 已在 `08-knowledge/plugin-skill-map.md` 增加“插件可用性预检”规则。
+
+### 走过的弯路
+
+之前把“插件已安装”和“流程应该调用”看得太近，但中间还隔着两层：
+
+```text
+是否启用
+→ 当前会话是否真的暴露 skill / tool
+```
+
+如果这两层没有检查，文档里的调用地图就可能变成愿望清单，而不是执行清单。
+
+### 修正
+
+以后进入关键工作站前，先做三层预检：
+
+```text
+插件是否已下载到本机缓存
+→ 插件是否在配置或当前运行环境中启用
+→ 当前会话是否真正暴露出对应 skill / MCP tool / app surface
+```
+
+如果未暴露，必须先记录原因、替代方案和恢复动作，再继续推进。
+
+### 新原则
+
+- 不能保证插件永远不出问题，但可以把问题变成启动前可发现、可记录、可替代的风险。
+- Skill-only 插件和 MCP 插件要分开判断；Product Design 是前者，Creative Production 是后者加 skills。
+- 关键节点不只检查代码和文档，也要检查 agent 能力是否真的可用。
+- 以后所有“调用地图”都必须配套“可用性预检”，否则不算闭环。
+
+### 自媒体素材
+
+- 《我以为插件装好了就能用，结果 AI 项目踩了一个流程坑》
+- 《Agent 工作流为什么要做插件预检？》
+- 《Product Design 插件没介入：一次真实 AI 项目排查复盘》
+- 《AI Agent 不是会写文档就够了，还要验证工具真的可调用》
