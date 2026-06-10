@@ -1268,3 +1268,76 @@ NEXT_RISK:
 - 《子 agent 不是不能用，是不能把关键路径全交出去》
 - 《AI 项目管理的新坑：任务写得太大，子代理就不回来了》
 - 《为什么我开始要求 AI worker 返回 STATUS / FILES_CHANGED / TESTS_RUN》
+
+## 2026-06-10：VoltAgent subagents 研究与项目级安装复盘
+
+### 关键进展
+
+- 研究了 `VoltAgent/awesome-codex-subagents` 主仓库。
+- 对照了官方 Codex Subagents 文档。
+- 抽查了和 ToolSite OS 高相关的 agent：
+  - `task-distributor`
+  - `agent-organizer`
+  - `reviewer`
+  - `docs-researcher`
+  - `browser-debugger`
+  - `ui-ux-tester`
+  - `ui-fixer`
+  - `seo-specialist`
+  - `project-idea-validator`
+  - `market-researcher`
+  - `search-specialist`
+  - `content-quality-editor`
+- 最终没有全量安装，而是创建了 6 个 ToolSite OS 项目级 custom agents。
+
+### 决策
+
+采用：
+
+```text
+少量项目级安装
+→ ToolSite OS 专用约束
+→ read-only 优先
+→ 强制收口协议
+```
+
+不采用：
+
+```text
+全量安装 166+ agents
+→ 不审查直接复制
+→ 全局安装污染其他项目
+→ 让子 agent 负责关键路径
+```
+
+### 已安装
+
+```text
+.codex/agents/toolsite-task-distributor.toml
+.codex/agents/toolsite-docs-researcher.toml
+.codex/agents/toolsite-reviewer.toml
+.codex/agents/toolsite-ui-ux-tester.toml
+.codex/agents/toolsite-seo-specialist.toml
+.codex/agents/toolsite-idea-validator.toml
+```
+
+并新增：
+
+```text
+.codex/config.toml
+08-knowledge/subagent-capability-evaluation.md
+```
+
+### 新原则
+
+- 第三方 agent 定义是素材，不是可以无脑安装的能力包。
+- 自己项目的 agent 必须服务项目工作流，而不是服务“看起来更强”的幻觉。
+- 子 agent 能提升并行探索和复验质量，但不能替代主线程对结果负责。
+- 优先做项目级安装，只有跨项目稳定复用后，才考虑升级成全局 agent 或 skill。
+
+### 自媒体素材
+
+- 《我研究了 166 个 Codex 子代理，最后只装了 6 个》
+- 《AI 子代理不是越多越好：为什么全量安装反而危险》
+- 《第三方 agent 能力库怎么用？先项目化，再标准化》
+- 《从卡住到可控：我如何给 AI 子代理加上收口协议》

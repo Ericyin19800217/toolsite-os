@@ -110,6 +110,24 @@ enabled = true
 | subagent-driven-development | 谨慎可选 | 明确、短闭环、低耦合的旁路任务 | 用子代理拆解执行；关键路径不直接交给子 agent |
 | self-learning | 维护 | 用户要求记忆、复盘、沉淀时 | 更新记忆和经验模式 |
 
+项目级 custom agents：
+
+```text
+.codex/agents/toolsite-task-distributor.toml
+.codex/agents/toolsite-docs-researcher.toml
+.codex/agents/toolsite-reviewer.toml
+.codex/agents/toolsite-ui-ux-tester.toml
+.codex/agents/toolsite-seo-specialist.toml
+.codex/agents/toolsite-idea-validator.toml
+```
+
+使用规则：
+
+- 这些 agents 只服务 ToolSite OS，不安装到全局 `~/.codex/agents`。
+- 默认只用于短闭环、低耦合、可独立验收的旁路任务。
+- 第一次使用新 agent 时只派一个，不并发，确认输出协议稳定后再扩大使用。
+- 任何子 agent 输出都不能代替主线程复验、Git 提交和 Obsidian 同步。
+
 ### 搜索、研究与浏览验证
 
 | Skill / 能力 | 优先级 | 可能使用阶段 | 用途 |
