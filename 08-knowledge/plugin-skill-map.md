@@ -107,7 +107,7 @@ enabled = true
 | systematic-debugging | 主线 | 遇到 bug、异常、测试失败 | 先定位再修复 |
 | requesting-code-review | 主线 | 主要功能完成后 | 主动审查风险 |
 | receiving-code-review | 主线 | 收到 review 反馈后 | 严谨处理反馈 |
-| subagent-driven-development | 可选 | 多个独立任务并行时 | 用子代理拆解执行 |
+| subagent-driven-development | 谨慎可选 | 明确、短闭环、低耦合的旁路任务 | 用子代理拆解执行；关键路径不直接交给子 agent |
 | self-learning | 维护 | 用户要求记忆、复盘、沉淀时 | 更新记忆和经验模式 |
 
 ### 搜索、研究与浏览验证
