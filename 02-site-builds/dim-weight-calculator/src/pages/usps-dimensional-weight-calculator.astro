@@ -1,0 +1,14 @@
+---
+import { DimensionalWeightCalculator } from "../components/DimensionalWeightCalculator";
+import FormulaSourceNote from "../components/FormulaSourceNote.astro";
+import ToolLayout from "../components/ToolLayout.astro";
+import { getFormulaByCarrier } from "../content/formulaSources";
+
+const formula = getFormulaByCarrier("usps");
+---
+
+<ToolLayout title="USPS Dimensional Weight Calculator" description="Estimate USPS dimensional weight and billable weight, with source notes for current USPS divisor rules.">
+  <h1 class="text-4xl font-semibold text-slate-950">USPS Dimensional Weight Calculator</h1>
+  <DimensionalWeightCalculator client:load defaultCarrier="usps" />
+  <FormulaSourceNote formula={formula} />
+</ToolLayout>

@@ -1,0 +1,14 @@
+---
+import { DimensionalWeightCalculator } from "../components/DimensionalWeightCalculator";
+import FormulaSourceNote from "../components/FormulaSourceNote.astro";
+import ToolLayout from "../components/ToolLayout.astro";
+import { getFormulaByCarrier } from "../content/formulaSources";
+
+const formula = getFormulaByCarrier("dhl");
+---
+
+<ToolLayout title="DHL Volumetric Weight Calculator" description="Estimate DHL volumetric weight with metric dimensions, actual weight, and custom divisor support.">
+  <h1 class="text-4xl font-semibold text-slate-950">DHL Volumetric Weight Calculator</h1>
+  <DimensionalWeightCalculator client:load defaultCarrier="dhl" />
+  <FormulaSourceNote formula={formula} />
+</ToolLayout>

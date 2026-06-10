@@ -1,0 +1,14 @@
+---
+import { DimensionalWeightCalculator } from "../components/DimensionalWeightCalculator";
+import FormulaSourceNote from "../components/FormulaSourceNote.astro";
+import ToolLayout from "../components/ToolLayout.astro";
+import { getFormulaByCarrier } from "../content/formulaSources";
+
+const formula = getFormulaByCarrier("ups");
+---
+
+<ToolLayout title="UPS Dimensional Weight Calculator" description="Estimate UPS dimensional weight and billable weight with inches, pounds, and custom DIM factor support.">
+  <h1 class="text-4xl font-semibold text-slate-950">UPS Dimensional Weight Calculator</h1>
+  <DimensionalWeightCalculator client:load defaultCarrier="ups" />
+  <FormulaSourceNote formula={formula} />
+</ToolLayout>
