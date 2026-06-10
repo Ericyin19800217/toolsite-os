@@ -59,5 +59,16 @@ describe("calculateDimensionalWeight", () => {
         unitSystem: "imperial"
       })
     ).toThrow("length must be greater than 0");
+
+    expect(() =>
+      calculateDimensionalWeight({
+        length: -1,
+        width: 12,
+        height: 10,
+        actualWeight: 12,
+        divisor: 139,
+        unitSystem: "imperial"
+      })
+    ).toThrow("length must be greater than 0");
   });
 });
