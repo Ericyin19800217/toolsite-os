@@ -1341,3 +1341,49 @@ NEXT_RISK:
 - 《AI 子代理不是越多越好：为什么全量安装反而危险》
 - 《第三方 agent 能力库怎么用？先项目化，再标准化》
 - 《从卡住到可控：我如何给 AI 子代理加上收口协议》
+
+## 2026-06-10：Product Design 介入页面审查复盘
+
+### 关键进展
+
+- Product Design 插件已能参与当前流程。
+- 按 Product Design audit 路径对 `dim-weight-calculator` 当前页面做了截图证据审查。
+- Browser / Chrome 截图工具当前未暴露，用户确认后使用 Playwright 作为 fallback。
+- 生成审查报告：
+
+```text
+02-site-builds/designs/2026-06-10-product-design-audit-dim-weight-calculator.md
+```
+
+- 截图证据保存到：
+
+```text
+output/playwright/product-design-audit/screenshots/
+```
+
+### 结论
+
+页面当前可用，且比完全未设计的工程 demo 更好，但还没有达到之前设计文档提出的 `Product Tool Shell` 标准。
+
+之前的设计优化主要完成在文档层，代码层仍有几个关键缺口：
+
+- 没有 compact top bar / anchor nav。
+- 输入标签没有显式单位。
+- 桌面维度输入视觉边界有挤压感。
+- source confidence 已存在，但视觉上像孤立警告条，没有成为结构化信任面板。
+- 移动端首屏主要是表单，结果需要滚动后才能看到。
+- carrier preset 的解释不够靠近选择控件。
+
+### 新原则
+
+- Product Design 介入不能只停留在“设计建议”，必须用当前页面截图验证实现差距。
+- 设计文档完成不代表设计优化完成；必须检查代码和真实渲染。
+- 页面上线前至少要完成一次证据型 Product Design audit。
+- 如果 Browser / Chrome 工具不可用，Playwright fallback 可以使用，但必须明确记录。
+
+### 自媒体素材
+
+- 《Product Design 插件真正介入后，发现我之前只是写了设计文档》
+- 《AI 工具站不是能用就能上线：一次截图审查暴露了 6 个问题》
+- 《从工程 demo 到产品工具：为什么还差一个 Product Tool Shell》
+- 《设计优化有没有落地？不要看文档，看截图》
