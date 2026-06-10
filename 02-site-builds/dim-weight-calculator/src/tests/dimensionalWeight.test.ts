@@ -48,27 +48,37 @@ describe("calculateDimensionalWeight", () => {
     expect(result.unitLabel).toBe("kg");
   });
 
-  it("throws for zero or negative values", () => {
+  it.each([
+    ["length", 0],
+    ["length", -1],
+    ["length", Number.NaN],
+    ["length", Number.POSITIVE_INFINITY],
+    ["width", 0],
+    ["width", -1],
+    ["width", Number.NaN],
+    ["width", Number.POSITIVE_INFINITY],
+    ["height", 0],
+    ["height", -1],
+    ["height", Number.NaN],
+    ["height", Number.POSITIVE_INFINITY],
+    ["actualWeight", 0],
+    ["actualWeight", -1],
+    ["actualWeight", Number.NaN],
+    ["actualWeight", Number.POSITIVE_INFINITY],
+    ["divisor", 0],
+    ["divisor", -1],
+    ["divisor", Number.NaN],
+    ["divisor", Number.POSITIVE_INFINITY]
+  ] as const)("throws for invalid %s value %s", (field, value) => {
     expect(() =>
       calculateDimensionalWeight({
-        length: 0,
-        width: 12,
-        height: 10,
-        actualWeight: 12,
-        divisor: 139,
+        length: field === "length" ? value : 20,
+        width: field === "width" ? value : 12,
+        height: field === "height" ? value : 10,
+        actualWeight: field === "actualWeight" ? value : 12,
+        divisor: field === "divisor" ? value : 139,
         unitSystem: "imperial"
       })
-    ).toThrow("length must be greater than 0");
-
-    expect(() =>
-      calculateDimensionalWeight({
-        length: -1,
-        width: 12,
-        height: 10,
-        actualWeight: 12,
-        divisor: 139,
-        unitSystem: "imperial"
-      })
-    ).toThrow("length must be greater than 0");
+    ).toThrow(`${field} must be greater than 0`);
   });
 });
