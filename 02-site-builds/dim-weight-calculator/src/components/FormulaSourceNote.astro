@@ -1,0 +1,30 @@
+---
+import type { CarrierFormula } from "../content/formulaSources";
+
+interface Props {
+  formula: CarrierFormula;
+}
+
+const { formula } = Astro.props;
+---
+
+<aside class="rounded border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+  <p class="font-semibold">Formula source note</p>
+  <p>{formula.roundingNote}</p>
+  <p>
+    Confidence: <strong>{formula.confidence}</strong>
+    {formula.sourceDate ? ` · Source: ${formula.sourceDate}` : ""}
+  </p>
+  {
+    formula.sourceUrl && (
+      <a
+        class="font-medium underline"
+        href={formula.sourceUrl}
+        rel="noreferrer"
+        target="_blank"
+      >
+        View source
+      </a>
+    )
+  }
+</aside>
