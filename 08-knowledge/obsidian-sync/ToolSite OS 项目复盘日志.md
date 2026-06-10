@@ -1387,3 +1387,65 @@ output/playwright/product-design-audit/screenshots/
 - 《AI 工具站不是能用就能上线：一次截图审查暴露了 6 个问题》
 - 《从工程 demo 到产品工具：为什么还差一个 Product Tool Shell》
 - 《设计优化有没有落地？不要看文档，看截图》
+
+## 2026-06-10：Product Design 审查后 UI 补丁复盘
+
+### 关键进展
+
+- 根据 Product Design audit 的 6 个问题完成小范围 UI 实施补丁。
+- 修改了：
+  - `DimensionalWeightCalculator.tsx`
+  - `FormulaSourceNote.astro`
+  - `ToolLayout.astro`
+  - `dimensional-weight-calculator.astro`
+  - `global.css`
+- 生成 QA 记录：
+
+```text
+02-site-builds/designs/2026-06-10-product-design-patch-qa.md
+```
+
+### 已修正
+
+- 增加 compact top bar 和 anchor nav。
+- 输入标签补充单位，例如 `Length (in)`、`Actual weight (lb)`。
+- 增加 carrier preset helper。
+- 结果面板增加动态 source confidence。
+- source note 改为结构化信任面板。
+- 移动端增加 current billable estimate summary。
+- 修复桌面三列尺寸输入的视觉挤压。
+
+### 验证
+
+```text
+npm run test：3 files passed, 30 tests passed
+npm run build：0 errors, 0 warnings, 5 pages built
+Playwright：桌面和移动端截图复验，无横向溢出，无 console warning/error
+```
+
+### 追加复验记录
+
+本轮收尾时重新执行：
+
+```text
+npm run test：3 files passed, 30 tests passed
+npm run build：0 errors, 0 warnings, 5 pages built
+```
+
+但 Playwright CLI 在桌面沙箱内复跑时出现 Chrome daemon 启动后关闭的问题，未能完成新的截图采集。当前 QA 文档中的截图证据来自同一轮实现周期内更早的成功 Playwright QA，不是本次收尾命令新生成的截图。
+
+这个细节要记录下来，因为后续商业化流程里“验证证据的来源”和“当前环境失败的归因”要分开：不能把工具层阻塞误判为页面问题，也不能把历史截图说成刚刚生成的截图。
+
+### 新原则
+
+- Product Design audit 后必须进入小范围补丁，而不是只写报告。
+- UI 问题必须截图复验，尤其是移动端和输入控件密度。
+- 对 formula/source 类工具，source confidence 应靠近结果，而不是只放在页面底部。
+- 结构化信任比装饰性视觉更重要。
+
+### 自媒体素材
+
+- 《一次 Product Design 审查后，我把工具站从能用推进到可信》
+- 《AI 工具站 UI 修复清单：单位、来源、结果、移动端》
+- 《为什么 source confidence 应该放在结果旁边》
+- 《从截图发现问题，到截图证明修复》

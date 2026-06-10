@@ -40,6 +40,11 @@ export function DimensionalWeightCalculator({
 
   const selectedFormula = getFormulaByCarrier(formState.carrier);
   const isCustomCarrier = formState.carrier === "custom";
+  const dimensionUnit = selectedFormula.unitSystem === "metric" ? "cm" : "in";
+  const weightUnit = selectedFormula.unitSystem === "metric" ? "kg" : "lb";
+  const divisorText = isCustomCarrier
+    ? `custom divisor ${formState.customDivisor || "not set"}`
+    : `divisor ${selectedFormula.divisor}`;
 
   const result = useMemo(() => {
     try {
@@ -80,7 +85,21 @@ export function DimensionalWeightCalculator({
   }
 
   return (
-    <section className="grid gap-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
+    <section
+      id="calculator"
+      className="grid gap-5 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5 md:grid-cols-[minmax(0,1fr)_minmax(300px,380px)] md:gap-6"
+    >
+      {result.status === "valid" && result.value ? (
+        <div className="rounded-md border border-amber-200 bg-amber-50 p-3 md:hidden">
+          <p className="text-xs font-medium text-amber-900">
+            Current billable estimate
+          </p>
+          <p className="mt-1 text-2xl font-semibold text-slate-950">
+            {result.value.billableWeight} {result.value.unitLabel}
+          </p>
+        </div>
+      ) : null}
+
       <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
         <label className="grid gap-2 text-sm font-medium text-slate-800">
           Carrier
@@ -98,12 +117,16 @@ export function DimensionalWeightCalculator({
             ))}
           </select>
         </label>
+        <p className="rounded-md bg-slate-50 px-3 py-2 text-sm leading-6 text-slate-700">
+          {selectedFormula.label} preset: {selectedFormula.serviceScope},{" "}
+          {divisorText}, {selectedFormula.confidence} confidence.
+        </p>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          <label className="grid gap-2 text-sm font-medium text-slate-800">
-            Length
+        <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
+          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
+            Length ({dimensionUnit})
             <input
-              className="rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
+              className="w-full min-w-0 rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
               inputMode="decimal"
               min="0"
               type="number"
@@ -112,10 +135,10 @@ export function DimensionalWeightCalculator({
             />
           </label>
 
-          <label className="grid gap-2 text-sm font-medium text-slate-800">
-            Width
+          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
+            Width ({dimensionUnit})
             <input
-              className="rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
+              className="w-full min-w-0 rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
               inputMode="decimal"
               min="0"
               type="number"
@@ -124,10 +147,10 @@ export function DimensionalWeightCalculator({
             />
           </label>
 
-          <label className="grid gap-2 text-sm font-medium text-slate-800">
-            Height
+          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
+            Height ({dimensionUnit})
             <input
-              className="rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
+              className="w-full min-w-0 rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
               inputMode="decimal"
               min="0"
               type="number"
@@ -139,7 +162,7 @@ export function DimensionalWeightCalculator({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="grid gap-2 text-sm font-medium text-slate-800">
-            Actual weight
+            Actual weight ({weightUnit})
             <input
               className="rounded-md border border-slate-300 px-3 py-2 text-base text-slate-950"
               inputMode="decimal"
@@ -201,6 +224,15 @@ export function DimensionalWeightCalculator({
               <div className="grid gap-1 border-t border-white/10 pt-3">
                 <dt className="text-slate-300">Formula</dt>
                 <dd className="font-medium">{result.formula.formulaLabel}</dd>
+              </div>
+              <div className="grid gap-1 border-t border-white/10 pt-3">
+                <dt className="text-slate-300">Source confidence</dt>
+                <dd className="font-medium">
+                  {result.formula.confidence}
+                  {result.formula.sourceDate
+                    ? ` · ${result.formula.sourceDate}`
+                    : ""}
+                </dd>
               </div>
             </dl>
 

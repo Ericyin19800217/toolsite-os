@@ -8,17 +8,50 @@ interface Props {
 const { formula } = Astro.props;
 ---
 
-<aside class="rounded border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
-  <p class="font-semibold">Formula source note</p>
-  <p>{formula.roundingNote}</p>
-  <p>
-    Confidence: <strong>{formula.confidence}</strong>
-    {formula.sourceDate ? ` · Source: ${formula.sourceDate}` : ""}
-  </p>
+<aside
+  id="sources"
+  class="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-800 shadow-sm"
+>
+  <div>
+    <p class="text-base font-semibold text-slate-950">
+      Page source note: {formula.label} preset
+    </p>
+    <p class="mt-1 text-slate-600">{formula.serviceScope}</p>
+  </div>
+
+  <dl class="grid gap-3 sm:grid-cols-2">
+    <div>
+      <dt class="text-xs font-medium uppercase text-slate-500">
+        Formula
+      </dt>
+      <dd class="mt-1 font-medium text-slate-950">{formula.formulaLabel}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium uppercase text-slate-500">
+        Confidence
+      </dt>
+      <dd class="mt-1 font-medium text-slate-950">{formula.confidence}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium uppercase text-slate-500">
+        Checked
+      </dt>
+      <dd class="mt-1 font-medium text-slate-950">
+        {formula.sourceDate ?? "Needs source review before launch"}
+      </dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium uppercase text-slate-500">
+        Caveat
+      </dt>
+      <dd class="mt-1 text-slate-700">{formula.roundingNote}</dd>
+    </div>
+  </dl>
+
   {
     formula.sourceUrl && (
       <a
-        class="font-medium underline"
+        class="w-fit rounded-md border border-slate-300 px-3 py-2 font-medium text-slate-950 underline-offset-4 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500"
         href={formula.sourceUrl}
         rel="noreferrer"
         target="_blank"
