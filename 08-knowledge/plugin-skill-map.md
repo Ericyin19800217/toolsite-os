@@ -42,8 +42,17 @@ docs/superpowers/specs/*-design.md
 
 当前执行说明：
 
-- Product Design 插件文件已安装在本机插件缓存中，但当前 Codex 会话未暴露对应 callable 工具。
-- 如果 Product Design 未在会话工具中出现，不能假装已直接调用；此时优先用 `impeccable` 执行产品 UI/UX 设计、审查和打磨。
+- Product Design 插件文件已安装在本机插件缓存中。
+- 2026-06-10 排查发现：`~/.codex/config.toml` 原本只启用了 `browser@openai-bundled` 和 `chrome@openai-bundled`，没有启用 `product-design@openai-curated-remote`，因此当前会话没有暴露 Product Design skills。
+- 已追加配置：
+
+```toml
+[plugins."product-design@openai-curated-remote"]
+enabled = true
+```
+
+- 当前线程的 skill 列表不会热更新；需要新开线程或重启 Codex 后验证 Product Design 是否进入可用 skill 列表。
+- 如果新线程里 Product Design 仍未出现，不能假装已直接调用；此时继续优先用 `impeccable` 执行产品 UI/UX 设计、审查和打磨，并继续排查插件加载机制。
 - Product Design 的 skill 文档仍可作为流程参考，尤其是 `get-context`、`audit`、`design-qa` 的设计闸门思想。
 
 ## 全量 Skill 盘点

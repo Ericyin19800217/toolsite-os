@@ -1118,3 +1118,47 @@ Missing field `tsconfigPaths` on BindingViteResolvePluginConfig.resolveOptions
 - 先补 `PRODUCT.md` / 设计语境。
 - 对 dimensional weight calculator 做设计诊断和小批次 UI 打磨。
 - 再进行浏览器验收、Playwright QA、构建验证和部署决策。
+
+## 2026-06-10：Product Design 插件不可调用排查复盘
+
+### 关键进展
+
+- 用户追问 Product Design 为什么不能调用，并要求找到原因和修复。
+- 排查结果：
+  - Product Design 插件文件存在于本机插件缓存：`~/.codex/plugins/cache/openai-curated-remote/product-design/0.1.46/`。
+  - 插件 manifest 完整，包含 `skills`，但没有 `.mcp.json`，属于 skill-only 插件。
+  - 当前线程 `tool_search` 查不到 Product Design callable tools，这本身不完全代表插件不可用，因为 Product Design 主要是 skills，不是 MCP tools。
+  - 关键根因在 `~/.codex/config.toml`：原本只启用了 `browser@openai-bundled` 和 `chrome@openai-bundled`，没有启用 `product-design@openai-curated-remote`。
+- 已修复配置：
+
+```toml
+[plugins."product-design@openai-curated-remote"]
+enabled = true
+```
+
+- 修复前已备份配置：
+
+```text
+~/.codex/config.toml.product-design-backup-20260610133218
+```
+
+### 踩过的坑
+
+- 看到插件缓存存在，不能直接等同于“当前会话可调用”。
+- `tool_search` 查的是工具暴露，不一定能证明 skill-only 插件是否已加载。
+- 当前线程的 skill 列表是在会话启动时注入的，修改配置后不能热更新本线程。
+
+### 新原则
+
+- 判断插件状态要分三层：
+  1. 是否已下载到缓存。
+  2. 是否在 config 中启用。
+  3. 是否在当前会话的 tools / skills 中实际暴露。
+- 文档中的“已安装插件”必须区分“已安装”“已启用”“当前线程可调用”。
+- 修配置后必须在新线程或重启 Codex 后验证。
+
+### 下一步
+
+- 新开线程或重启 Codex 后验证 Product Design 是否进入可用 skill 列表。
+- 如果仍未出现，继续排查 Codex App 是否需要通过 UI 手动启用远程插件。
+- 在验证前，当前线程仍用 `impeccable` 承担设计闸门，不能宣称已经直接调用 Product Design。
