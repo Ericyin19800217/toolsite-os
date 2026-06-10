@@ -1063,3 +1063,58 @@ Missing field `tsconfigPaths` on BindingViteResolvePluginConfig.resolveOptions
   - 配置部署命令和输出目录。
   - 提交 Search Console。
   - 建立收录和流量追踪台账。
+
+## 2026-06-10：Obsidian 知识回流与设计闸门复盘
+
+### 关键进展
+
+- 按用户要求检索 Eric Knowledge Base 中最近沉淀的新知识。
+- 重点读取并回流了以下资料：
+  - `70 Skills/Codex Vibe Coding 项目执行流程.md`
+  - `70 Skills/Codex 产品设计与创意生产插件使用流程.md`
+  - `70 Skills/AI 工具站矩阵从选题到变现落地流程.md`
+  - `50 Outputs/Reports/2026-06-09 AI工具类网站广告变现 OPC 评估.md`
+  - `30 Resources/Articles/反 AI 味设计指南.md`
+  - `70 Skills/AI 原生团队工作方式检查清单.md`
+- 更新了项目内知识文档：
+  - `08-knowledge/source-map.md`
+  - `08-knowledge/principles.md`
+  - `08-knowledge/learnings.md`
+  - `08-knowledge/plugin-skill-map.md`
+  - `06-automation/workflow-map.md`
+
+### 走过的弯路
+
+1. 虽然项目里已经写了插件与 skill 调用地图，但实际建站执行时没有把它变成强制检查清单。
+
+   修正：把建站 MVP 阶段新增为“技术实现后必须进入设计闸门，再进入部署”。
+
+2. 第一个工具站页面功能可用，但视觉和产品可信感不足。
+
+   修正：从 Obsidian 知识中引入产品设计插件流程、反 AI 味设计指南和浏览器验收规则。
+
+3. 对 Product Design 插件的实际可用性判断不够严谨。
+
+   修正：在调用地图里写清楚：插件文件已安装，但当前会话未暴露 callable 工具时，不能假装已经直接调用；应优先用 `impeccable` 作为可执行替代。
+
+### 新原则
+
+- Obsidian 知识不是资料仓库，必须回流成项目可执行闸门。
+- 页面类项目不能只以测试通过和构建成功为完成标准。
+- UI / 产品设计任务应先诊断，再小批次修复，每轮 4-5 个目标。
+- 设计修复必须写清不可破坏约束：核心功能、SEO 页面结构、桌面端、移动端。
+- 工具站第一阶段成功指标不是 7 天收入，而是收录、impressions、真实使用、反馈和可服务化资产。
+
+### 自媒体素材
+
+- 《为什么我的第一个 AI 工具站功能做好了，却还不能上线？》
+- 《Obsidian 知识库不是仓库：它要反过来指挥项目流程》
+- 《AI 工具站上线前，为什么必须加一个设计闸门？》
+- 《我踩到的一个 Agent 流程坑：文档写了，但执行没用上》
+
+### 下一步
+
+- 暂停直接部署。
+- 先补 `PRODUCT.md` / 设计语境。
+- 对 dimensional weight calculator 做设计诊断和小批次 UI 打磨。
+- 再进行浏览器验收、Playwright QA、构建验证和部署决策。

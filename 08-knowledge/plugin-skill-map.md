@@ -40,6 +40,12 @@ docs/superpowers/specs/*-design.md
 | Creative Production | moodboard、广告方向、品牌视觉探索 | 自媒体素材、服务推广、客户品牌资产 |
 | HyperFrames by HeyGen | HTML 视频、字幕、转场、网站转视频 | 自媒体视频、工具站演示、网站 promo |
 
+当前执行说明：
+
+- Product Design 插件文件已安装在本机插件缓存中，但当前 Codex 会话未暴露对应 callable 工具。
+- 如果 Product Design 未在会话工具中出现，不能假装已直接调用；此时优先用 `impeccable` 执行产品 UI/UX 设计、审查和打磨。
+- Product Design 的 skill 文档仍可作为流程参考，尤其是 `get-context`、`audit`、`design-qa` 的设计闸门思想。
+
 ## 全量 Skill 盘点
 
 说明：
@@ -261,6 +267,25 @@ MVP 上线后：用于工具站演示视频。
 - `Browser`：本地打开验证。
 - `playwright`：核心流程、移动端、死链、截图验证。
 - `verification-before-completion`：完成前检查。
+
+设计闸门：
+
+```text
+MVP Brief
+→ 技术实现
+→ impeccable / Product Design 语境确认
+→ 设计诊断，不直接大改
+→ 每轮 4-5 个 UI 目标小批次修复
+→ 桌面端 / 移动端浏览器验收
+→ 反 AI 味检查
+→ 再进入部署
+```
+
+注意：
+
+- 功能测试通过不等于可上线。
+- 页面类项目必须真实打开浏览器查看。
+- 设计修复必须写清不可破坏约束，例如核心计算逻辑、SEO 页面矩阵、桌面端布局和移动端可用性。
 
 ### 阶段三：SEO 与上线
 
