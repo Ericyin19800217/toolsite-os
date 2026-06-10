@@ -1,0 +1,64 @@
+---
+import { DimensionalWeightCalculator } from "../components/DimensionalWeightCalculator";
+import FormulaSourceNote from "../components/FormulaSourceNote.astro";
+import ToolLayout from "../components/ToolLayout.astro";
+import { getFormulaByCarrier } from "../content/formulaSources";
+
+const fedexFormula = getFormulaByCarrier("fedex");
+---
+
+<ToolLayout
+  title="Dimensional Weight Calculator for UPS, FedEx, USPS & DHL"
+  description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors. Supports inches/lbs and cm/kg."
+>
+  <section class="grid gap-4">
+    <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">
+      Shipping calculator
+    </p>
+    <h1 class="max-w-3xl text-4xl font-bold tracking-tight text-slate-950">
+      Free Multi-Carrier Dimensional Weight Calculator
+    </h1>
+    <p class="max-w-3xl text-lg leading-8 text-slate-700">
+      Estimate dimensional weight, actual weight, and billable weight for UPS,
+      FedEx, USPS, DHL, or a custom DIM divisor before you buy a label or quote a
+      shipment.
+    </p>
+  </section>
+
+  <DimensionalWeightCalculator client:load defaultCarrier="fedex" />
+
+  <FormulaSourceNote formula={fedexFormula} />
+
+  <section class="grid gap-4 rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-2xl font-semibold text-slate-950">What dimensional weight is</h2>
+    <p class="leading-7 text-slate-700">
+      Dimensional weight, also called DIM weight or volumetric weight, is a
+      pricing weight based on the amount of space a package occupies. Carriers
+      compare dimensional weight with the package&apos;s actual scale weight and
+      usually charge the higher billable weight.
+    </p>
+  </section>
+
+  <section class="grid gap-4 rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-2xl font-semibold text-slate-950">Dimensional weight formula</h2>
+    <p class="leading-7 text-slate-700">
+      The common imperial formula is length x width x height divided by the DIM
+      divisor. For example, FedEx and UPS package estimates commonly use a 139
+      divisor, while USPS estimates commonly use 166 for eligible parcels. Metric
+      DHL-style volumetric estimates often use centimeters divided by 5000.
+    </p>
+    <p class="rounded bg-slate-100 p-4 font-mono text-sm text-slate-900">
+      Dimensional weight = length x width x height / DIM divisor
+    </p>
+  </section>
+
+  <section class="grid gap-4 rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-2xl font-semibold text-slate-950">Disclaimer</h2>
+    <p class="leading-7 text-slate-700">
+      This calculator is an estimate for planning and comparison. Carrier rules,
+      divisors, rounding, surcharges, service types, regions, contract rates, and
+      freight programs can change. Confirm the final billable weight and charge
+      with the carrier or shipping platform before purchasing postage.
+    </p>
+  </section>
+</ToolLayout>
