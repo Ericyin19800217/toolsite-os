@@ -1,6 +1,6 @@
 # 风险与阻塞
 
-> 最后更新：2026-06-11
+> 最后更新：2026-06-12
 
 ## 待 Eric 决策
 
@@ -20,13 +20,13 @@
 
 | # | 事项 | 优先级 | 影响 | 提出日期 |
 |---|------|--------|------|---------|
-| 1 | 验证 ~/workspace/.codex/agents.md 自动加载 | P1 | 启动协议是否实际生效 | 06-11 |
+| 1 | 验证 ~/workspace/.codex/agents.md 自动加载 | P1 | ✅ symlink 指向 ../AGENTS.md，本会话已读取启动协议 | 06-11 |
 
 ## 已知风险
 
 | # | 风险 | 可能性 | 影响 | 缓解措施 |
 |---|------|--------|------|---------|
-| 1 | Codex 不自动加载 ~/workspace/.codex/agents.md | 中 | 启动协议未生效 | 实际跑一次 Codex session 验证 |
+| 1 | Codex 不自动加载 ~/workspace/.codex/agents.md | 低 | 启动协议未生效 | 已验证 .codex/agents.md symlink 可读，继续观察后续 session |
 | 2 | acting-engine 两份副本合并时遗漏文件 | 中 | 丢失代码/知识 | 迁移前做完整 diff 清单 |
 | 3 | 工作区协议文件在长期运行后膨胀 | 低 | 启动成本增加 | AGENTS 保持稳定，变更放 WORKSPACE |
 | 4 | SEO 工具站方向缺乏不公平优势 | 高 | 长期竞争力弱 | 待 Eric 战略决策 |
