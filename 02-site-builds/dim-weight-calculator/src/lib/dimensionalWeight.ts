@@ -1,4 +1,5 @@
 import type { UnitSystem } from "../content/formulaSources";
+import { roundToTwo } from "./rounding";
 
 export interface DimensionalWeightInput {
   length: number;
@@ -30,10 +31,6 @@ function assertPositiveNumber(field: string, value: number): void {
   if (!Number.isFinite(value) || value <= 0) {
     throw new Error(`${field} must be greater than 0`);
   }
-}
-
-function roundToTwo(value: number): number {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
 export function calculateDimensionalWeight(

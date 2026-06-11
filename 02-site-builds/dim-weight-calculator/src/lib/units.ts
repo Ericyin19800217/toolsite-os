@@ -1,6 +1,5 @@
-export function roundToTwo(value: number): number {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
-}
+export { roundToTwo } from "./rounding";
+import { roundToTwo } from "./rounding";
 
 export function inchesToCm(inches: number): number {
   return roundToTwo(inches * 2.54);

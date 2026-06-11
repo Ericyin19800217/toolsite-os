@@ -9,6 +9,6 @@ const formula = getFormulaByCarrier("dhl");
 
 <ToolLayout title="DHL Volumetric Weight Calculator" description="Estimate DHL volumetric weight with metric dimensions, actual weight, and custom divisor support.">
   <h1 class="text-4xl font-semibold text-slate-950">DHL Volumetric Weight Calculator</h1>
-  <DimensionalWeightCalculator client:load defaultCarrier="dhl" />
+  <DimensionalWeightCalculator client:visible defaultCarrier="dhl" />
   <FormulaSourceNote formula={formula} />
 </ToolLayout>

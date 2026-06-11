@@ -20,25 +20,28 @@ const { title, description } = Astro.props;
   </head>
   <body>
     <header class="border-b border-slate-200 bg-white">
-      <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <a
-          class="font-semibold text-slate-950"
+          class="flex items-center gap-2 font-semibold text-slate-950"
           href="/dimensional-weight-calculator/"
         >
+          <span class="grid size-7 place-items-center rounded-md bg-slate-950 text-sm font-bold text-white">
+            DW
+          </span>
           Shipping calculator
         </a>
         <nav
           aria-label="Page sections"
-          class="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600"
+          class="flex flex-wrap items-center gap-1 text-sm font-medium text-slate-600"
         >
-          <a class="hover:text-slate-950" href="/dimensional-weight-calculator/#calculator">Calculator</a>
-          <a class="hover:text-slate-950" href="/dimensional-weight-calculator/#formula">Formula</a>
-          <a class="hover:text-slate-950" href="/dimensional-weight-calculator/#sources">Sources</a>
-          <a class="hover:text-slate-950" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
+          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#calculator">Calculator</a>
+          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#formula">Formula</a>
+          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#sources">Sources</a>
+          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
         </nav>
       </div>
     </header>
-    <main class="mx-auto grid max-w-5xl gap-8 px-4 py-6 sm:px-6 lg:px-8">
+    <main class="mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:px-8">
       <slot />
     </main>
   </body>

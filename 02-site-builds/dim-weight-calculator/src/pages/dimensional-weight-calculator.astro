@@ -11,21 +11,44 @@ const fedexFormula = getFormulaByCarrier("fedex");
   title="Dimensional Weight Calculator for UPS, FedEx, USPS & DHL"
   description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors. Supports inches/lbs and cm/kg."
 >
-  <section class="grid gap-4">
-    <p class="text-sm font-semibold text-slate-500">
-      Shipping calculator
-    </p>
-    <h1 class="max-w-3xl text-4xl font-bold text-slate-950">
-      Free Multi-Carrier Dimensional Weight Calculator
-    </h1>
-    <p class="max-w-3xl text-lg leading-8 text-slate-700">
-      Estimate dimensional weight, actual weight, and billable weight for UPS,
-      FedEx, USPS, DHL, or a custom DIM divisor before you buy a label or quote a
-      shipment.
-    </p>
+  <section class="grid gap-5 border-b border-slate-200 pb-6 md:grid-cols-[minmax(0,1fr)_340px] md:items-end">
+    <div class="grid gap-4">
+      <p class="text-sm font-semibold text-teal-700">
+        Free shipping calculator
+      </p>
+      <h1 class="max-w-3xl text-4xl font-semibold text-slate-950">
+        Dimensional Weight Calculator
+      </h1>
+      <p class="max-w-2xl text-base leading-7 text-slate-600">
+        Estimate billable weight for UPS, FedEx, USPS, DHL, or a custom DIM
+        divisor before you buy a label or quote a shipment.
+      </p>
+      <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
+        <span class="rounded-md bg-slate-100 px-3 py-1.5">UPS</span>
+        <span class="rounded-md bg-slate-100 px-3 py-1.5">FedEx</span>
+        <span class="rounded-md bg-slate-100 px-3 py-1.5">USPS</span>
+        <span class="rounded-md bg-slate-100 px-3 py-1.5">DHL</span>
+        <span class="rounded-md bg-slate-100 px-3 py-1.5">Custom divisor</span>
+      </div>
+    </div>
+
+    <dl class="grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm">
+      <div class="flex items-center justify-between gap-4">
+        <dt class="text-slate-500">Default formula</dt>
+        <dd class="font-semibold text-slate-950">FedEx / 139</dd>
+      </div>
+      <div class="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
+        <dt class="text-slate-500">Output</dt>
+        <dd class="font-semibold text-slate-950">Billable weight</dd>
+      </div>
+      <div class="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
+        <dt class="text-slate-500">Use case</dt>
+        <dd class="font-semibold text-slate-950">Label planning</dd>
+      </div>
+    </dl>
   </section>
 
-  <DimensionalWeightCalculator client:load defaultCarrier="fedex" />
+  <DimensionalWeightCalculator client:visible defaultCarrier="fedex" />
 
   <FormulaSourceNote formula={fedexFormula} />
 

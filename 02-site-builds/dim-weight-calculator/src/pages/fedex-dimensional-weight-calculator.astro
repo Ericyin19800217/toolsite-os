@@ -9,6 +9,6 @@ const formula = getFormulaByCarrier("fedex");
 
 <ToolLayout title="FedEx Dimensional Weight Calculator" description="Estimate FedEx dimensional weight and billable weight using package dimensions, actual weight, and DIM factor notes.">
   <h1 class="text-4xl font-semibold text-slate-950">FedEx Dimensional Weight Calculator</h1>
-  <DimensionalWeightCalculator client:load defaultCarrier="fedex" />
+  <DimensionalWeightCalculator client:visible defaultCarrier="fedex" />
   <FormulaSourceNote formula={formula} />
 </ToolLayout>

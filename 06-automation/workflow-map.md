@@ -39,7 +39,11 @@ SEO Agent
 
 | 工作站 | 文档 | 状态 |
 |---|---|---|
-| AI 工具站选题验证工作站 | `06-automation/workstations/idea-validation-workstation.md` | 待执行第一轮 |
+| S1 AI 工具站选题验证工作站 | `06-automation/workstations/idea-validation-workstation.md` | 已运行第一轮，需按新加权规则复盘 |
+| S2 MVP Brief 工作站 | `06-automation/workstations/mvp-brief-workstation.md` | v0.1 已设计 |
+| S3 建站工作站 | `06-automation/workstations/site-build-workstation.md` | v0.1 已设计 |
+| S4 Product Design QA 工作站 | `06-automation/workstations/product-design-qa-workstation.md` | v0.1 已设计 |
+| S5 上线 QA 与 SEO 工作站 | `06-automation/workstations/launch-qa-seo-workstation.md` | v0.1 已设计 |
 
 ## 自动化原则
 

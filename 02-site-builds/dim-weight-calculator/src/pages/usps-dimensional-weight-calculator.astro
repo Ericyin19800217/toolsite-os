@@ -9,6 +9,6 @@ const formula = getFormulaByCarrier("usps");
 
 <ToolLayout title="USPS Dimensional Weight Calculator" description="Estimate USPS dimensional weight and billable weight, with source notes for current USPS divisor rules.">
   <h1 class="text-4xl font-semibold text-slate-950">USPS Dimensional Weight Calculator</h1>
-  <DimensionalWeightCalculator client:load defaultCarrier="usps" />
+  <DimensionalWeightCalculator client:visible defaultCarrier="usps" />
   <FormulaSourceNote formula={formula} />
 </ToolLayout>

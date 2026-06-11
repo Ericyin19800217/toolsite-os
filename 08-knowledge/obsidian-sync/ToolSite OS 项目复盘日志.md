@@ -1449,3 +1449,59 @@ npm run build：0 errors, 0 warnings, 5 pages built
 - 《AI 工具站 UI 修复清单：单位、来源、结果、移动端》
 - 《为什么 source confidence 应该放在结果旁边》
 - 《从截图发现问题，到截图证明修复》
+
+## 2026-06-11：Claude Code 审查反馈处理复盘
+
+### 关键进展
+
+- 收到外部代码与工作流审查反馈后，没有直接照单全收，而是逐条核实。
+- 代码侧确认并修复：
+  - 数字输入 HTML `min` 与 JS `>0` 校验不一致。
+  - `Number.EPSILON` 取整方案在 `10.075` 场景下会得到 `10.07`。
+  - `roundToTwo` 重复定义。
+  - 5 个页面 `client:load` 无条件 hydration。
+  - 缺少组件级测试。
+  - 缺少 `aria-live` 结果播报。
+  - `carrierPages.ts` 未引用死代码。
+  - `astro.config.mjs` 缺 `site/base` 配置入口。
+- 核实为非当前问题：
+  - `dist/` 当前没有被 Git 跟踪，`.gitignore` 已包含 `dist/`。
+
+### 新增测试
+
+```text
+src/tests/DimensionalWeightCalculator.test.tsx
+```
+
+覆盖：
+
+- 数字输入 `min="0.01"` 与 `step="any"`。
+- 结果区域 `role="status"` 与 `aria-live="polite"`。
+
+### 工作流修正
+
+- S1 选题验证工作站新增：
+  - 加权评分。
+  - 反验证机制。
+  - 评分辨别力规则。
+  - stop-loss 规则。
+- 新增 S2-S5 工作站 v0.1：
+  - MVP Brief 工作站。
+  - 建站工作站。
+  - Product Design QA 工作站。
+  - 上线 QA 与 SEO 工作站。
+
+### 新原则
+
+- 外部审查反馈是“待验证假设”，不是命令。
+- 代码质量问题优先于视觉继续打磨。
+- 每个 bug 修复必须尽量先补能失败的测试。
+- 工作流文档不能只写名字，至少要有输入、输出、步骤和 stop-loss。
+- `.gitignore` 类反馈要查 Git 跟踪状态，不能只看目录是否存在。
+
+### 自媒体素材
+
+- 《Claude Code 审查出了 26 个问题，我是怎么逐条核实的》
+- 《AI 项目不是越快越好：为什么外部审查要先验证再修》
+- 《一个工具站上线前，真正危险的不是 UI 丑，而是质量门槛缺失》
+- 《从 0 到 1 做工具站：为什么工作流必须有 stop-loss》

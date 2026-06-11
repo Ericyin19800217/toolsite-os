@@ -33,6 +33,20 @@ describe("calculateDimensionalWeight", () => {
     expect(result.billableWeight).toBe(20);
   });
 
+  it("rounds half-cent values to two decimals consistently", () => {
+    const result = calculateDimensionalWeight({
+      length: 1,
+      width: 1,
+      height: 1,
+      actualWeight: 10.075,
+      divisor: 139,
+      unitSystem: "imperial"
+    });
+
+    expect(result.actualWeight).toBe(10.08);
+    expect(result.billableWeight).toBe(10.08);
+  });
+
   it("returns kg labels for metric inputs", () => {
     const result = calculateDimensionalWeight({
       length: 50,
