@@ -5,8 +5,10 @@
 ## 前置准备
 
 ```
-□ 代码已推送到 GitHub（repo 地址：<待创建>）
-□ 已准备好付款方式（信用卡/支付宝）
+☑ 代码已推送到 GitHub：github.com/Ericyin19800217/toolsite-os
+☑ 已部署到 Vercel：dim-weight-calculator.vercel.app
+☑ Search Console 已验证 + sitemap 已提交
+□ 域名已购买（待操作）
 ```
 
 ---

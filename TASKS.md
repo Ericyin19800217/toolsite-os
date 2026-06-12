@@ -28,3 +28,4 @@
 | S2-S5 工作站 v0.1 骨架 | Codex | 06-10 | handoff/2026-06-10-codex-001 |
 | S2 建站工作站完整设计 | Claude | 06-12 | handoff/2026-06-12-claude-002 |
 | S3 上线部署与 SEO 工作站完整设计 | Claude | 06-12 | handoff/2026-06-12-claude-003 |
+| S1→S2→S3 端到端验证（dim-weight-calculator） | Claude | 06-12 | handoff/2026-06-12-claude-004 |
