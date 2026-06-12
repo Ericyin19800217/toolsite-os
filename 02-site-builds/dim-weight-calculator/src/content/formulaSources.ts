@@ -49,28 +49,30 @@ export const carrierFormulas: CarrierFormula[] = [
   {
     carrier: "usps",
     label: "USPS",
-    serviceScope: "Priority Mail retail parcels over one cubic foot",
+    serviceScope: "Priority Mail & Ground Advantage parcels over one cubic foot (effective July 12, 2026)",
     unitSystem: "imperial",
-    divisor: 166,
-    formulaLabel: "Length x Width x Height / 166",
-    roundingNote: "USPS DMM indicates rounding dimensions and rounding weight up.",
-    sourceUrl: "https://pe.usps.com/text/dmm300/123.htm",
-    sourceDate: "USPS DMM checked 2026-06-10",
+    divisor: 139,
+    formulaLabel: "Length x Width x Height / 139",
+    roundingNote: "USPS rounds every fractional inch up to the next whole inch before calculating DIM weight.",
+    sourceUrl: "https://www.supplychaindive.com/news/usps-to-align-dimensional-pricing-closer-to-fedex-ups/820305/",
+    sourceDate: "USPS DIM divisor changing to 139 on July 12, 2026",
     confidence: "medium",
     notes:
-      "USPS DMM currently shows 166, while 2026 third-party signals mention possible divisor changes. Verify before launch."
+      "USPS announced DIM divisor change from 166 to 139 effective July 12, 2026, aligning with FedEx/UPS. Applies only to packages over 1 cubic foot (1,728 in³). Flat Rate boxes are exempt. Fractional inch dimensions are rounded up to the next whole inch."
   },
   {
     carrier: "dhl",
     label: "DHL",
-    serviceScope: "Common international metric volumetric formula",
+    serviceScope: "DHL Express international volumetric weight",
     unitSystem: "metric",
     divisor: 5000,
     formulaLabel: "Length x Width x Height / 5000",
-    roundingNote: "DHL divisor can vary by service and region.",
-    confidence: "low",
+    roundingNote: "DHL divisor can vary by service, region, and contract. DHL eCommerce uses 6000 in most markets.",
+    sourceUrl: "https://www.dhl.com/discover/en-sg/ship-with-dhl/start-shipping/how-to-calculate-dhl-volumetric-weight",
+    sourceDate: "DHL official, checked 2026-06-12",
+    confidence: "medium",
     notes:
-      "Use as a common international estimate only until a stable DHL official source is added."
+      "DHL Express standard divisor is 5000 cm³/kg for international shipments (confirmed on official DHL regional sites). DHL eCommerce uses 6000 in US/Canada/International markets. Confirm with your specific service agreement."
   },
   {
     carrier: "custom",
