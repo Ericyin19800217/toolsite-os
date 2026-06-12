@@ -20,59 +20,59 @@ export const carrierFormulas: CarrierFormula[] = [
   {
     carrier: "fedex",
     label: "FedEx",
-    serviceScope: "Common U.S. and international package dimensional weight",
+    serviceScope: "U.S. and international package dimensional weight",
     unitSystem: "imperial",
     divisor: 139,
     formulaLabel: "Length x Width x Height / 139",
-    roundingNote: "FedEx may round dimensions and weight according to service rules.",
+    roundingNote: "FedEx rounds each dimension to the nearest whole inch, then rounds DIM weight up to the next whole pound.",
     sourceUrl:
       "https://www.fedex.com/content/dam/fedex/us-united-states/services/Service_Guide_2026.pdf",
     sourceDate: "2026 FedEx Service Guide",
     confidence: "high",
     notes:
-      "FedEx Service Guide supports 139 for common package dimensional weight. Some freight services may use different divisors."
+      "FedEx Service Guide confirms divisor 139 for standard package DIM weight. Freight and specialty services may use different divisors. Dimensions rounded to nearest whole inch before calculation."
   },
   {
     carrier: "ups",
     label: "UPS",
-    serviceScope: "Package daily rates dimensional weight",
+    serviceScope: "Daily Rates (account holders). Retail Rates use divisor 166 — select Custom to enter 166 if you ship at retail rates.",
     unitSystem: "imperial",
     divisor: 139,
     formulaLabel: "Length x Width x Height / 139",
-    roundingNote: "UPS may round measurements and fractional pounds according to rate rules.",
+    roundingNote: "UPS rounds each dimension to the nearest whole inch, then rounds DIM weight up to the next whole pound.",
     sourceUrl: "https://www.ups.com/assets/resources/webcontent/en_US/daily_rates.pdf",
-    sourceDate: "UPS Rate and Service Guide checked 2026-06-10",
+    sourceDate: "UPS Rate & Service Guide; vmeasure.ai cross-check 2026-06-12",
     confidence: "medium",
     notes:
-      "UPS source should be checked again before launch for the latest year-specific rate guide."
+      "UPS uses divisor 139 for Daily Rates (account/contract holders) and divisor 166 for Retail Rates (walk-in/UPS Store). This calculator defaults to Daily Rates 139. If you ship at retail rates, switch to Custom and enter 166. Always confirm with your specific UPS agreement."
   },
   {
     carrier: "usps",
     label: "USPS",
-    serviceScope: "Priority Mail & Ground Advantage parcels over one cubic foot (effective July 12, 2026)",
+    serviceScope: "Priority Mail, Priority Mail Express, Ground Advantage, Parcel Select — packages over 1 cubic foot",
     unitSystem: "imperial",
     divisor: 139,
     formulaLabel: "Length x Width x Height / 139",
-    roundingNote: "USPS rounds every fractional inch up to the next whole inch before calculating DIM weight.",
-    sourceUrl: "https://www.supplychaindive.com/news/usps-to-align-dimensional-pricing-closer-to-fedex-ups/820305/",
-    sourceDate: "USPS DIM divisor changing to 139 on July 12, 2026",
+    roundingNote: "USPS rounds every fractional inch up to the next whole inch (e.g. 12.2″ → 13″) before calculating DIM weight.",
+    sourceUrl: "https://pe.usps.com/dmmAdvisory/Show?dmmAdvisory=DMMAdvisory051226.html&year=2026",
+    sourceDate: "USPS DMM Advisory May 12, 2026; Docket CP2026-8; effective July 12, 2026",
     confidence: "medium",
     notes:
-      "USPS announced DIM divisor change from 166 to 139 effective July 12, 2026, aligning with FedEx/UPS. Applies only to packages over 1 cubic foot (1,728 in³). Flat Rate boxes are exempt. Fractional inch dimensions are rounded up to the next whole inch."
+      "USPS officially announced DIM divisor change from 166 to 139 effective July 12, 2026 (PRC Docket CP2026-8, approved May 27, 2026). Applies to packages over 1 cubic foot (1,728 in³). Flat Rate boxes exempt. Prior to July 12, divisor is 166."
   },
   {
     carrier: "dhl",
     label: "DHL",
-    serviceScope: "DHL Express international volumetric weight",
+    serviceScope: "DHL Express international volumetric weight (cm³/kg)",
     unitSystem: "metric",
     divisor: 5000,
     formulaLabel: "Length x Width x Height / 5000",
-    roundingNote: "DHL divisor can vary by service, region, and contract. DHL eCommerce uses 6000 in most markets.",
+    roundingNote: "DHL Express divisor is 5000 cm³/kg for international shipments. DHL eCommerce uses 6000 in most markets. Confirm with your contract.",
     sourceUrl: "https://www.dhl.com/discover/en-sg/ship-with-dhl/start-shipping/how-to-calculate-dhl-volumetric-weight",
-    sourceDate: "DHL official, checked 2026-06-12",
+    sourceDate: "DHL official Discover page; 2026 Service & Rate Guide cross-check; checked 2026-06-12",
     confidence: "medium",
     notes:
-      "DHL Express standard divisor is 5000 cm³/kg for international shipments (confirmed on official DHL regional sites). DHL eCommerce uses 6000 in US/Canada/International markets. Confirm with your specific service agreement."
+      "DHL Express standard volumetric divisor confirmed as 5000 cm³/kg across official DHL regional sites (SG, JP, TR, AT). Official 2026 Service & Rate Guide PDF available via mydhlplus.dhl.com. DHL eCommerce uses 6000 in US/Canada markets. Divisor may be negotiable for high-volume contract shippers."
   },
   {
     carrier: "custom",

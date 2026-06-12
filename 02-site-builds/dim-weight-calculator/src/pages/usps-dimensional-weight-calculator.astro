@@ -7,8 +7,21 @@ import { getFormulaByCarrier } from "../content/formulaSources";
 const formula = getFormulaByCarrier("usps");
 ---
 
-<ToolLayout title="USPS Dimensional Weight Calculator" description="Estimate USPS dimensional weight and billable weight, with source notes for current USPS divisor rules.">
-  <h1 class="text-4xl font-semibold text-slate-950">USPS Dimensional Weight Calculator</h1>
+<ToolLayout title="USPS Dimensional Weight Calculator — Divisor 139 (effective July 12, 2026)" description="Estimate USPS dimensional weight with the new 139 divisor effective July 12, 2026. Supports fractional inch rounding and 1 cu ft threshold rules.">
+  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
+    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
+      USPS DIM Weight — Updated July 2026 Rules
+    </p>
+    <h1 class="display-font text-5xl md:text-6xl leading-none tracking-wide text-[#edf0f5]">
+      USPS Dimensional Weight
+      <span class="block text-[#f59e0b]">Calculator</span>
+    </h1>
+    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
+      USPS is changing its DIM divisor from 166 to 139 on July 12, 2026, aligning with FedEx and UPS.
+      This calculator uses the new 139 divisor. Applies to packages over 1 cubic foot.
+      Fractional inches are rounded up to the next whole inch.
+    </p>
+  </section>
   <DimensionalWeightCalculator client:visible defaultCarrier="usps" />
   <FormulaSourceNote formula={formula} />
 </ToolLayout>
