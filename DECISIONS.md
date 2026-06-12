@@ -42,6 +42,20 @@
 
 ---
 
+## 2026-06-12 | 不建部署平台，用 Vercel Deploy Button + 引导式操作卡 | Claude + Eric
+
+**决策**：域名+服务器通过"逐帧操作卡 + Vercel Deploy Button"实现小白天体验，不自建部署基础设施。
+
+**推理**：
+- Vercel 免费层（100GB/月）足够工具站全部流量
+- "一键部署"不等于自建平台 — Vercel Deploy Button 就是天然的一键部署
+- 真正的竞争壁垒在选题验证和 SEO 增长，不在部署体验
+- 域名购买涉及用户付款信息，不适合由平台代操作
+- Phase 1-2 不需要自建部署平台，Phase 3 再评估
+
+**用户侧流程**：买域名（操作卡引导，5 分钟）→ 点部署按钮（1 分钟）→ 配 DNS（操作卡引导，5 分钟）→ 上线
+
+---
 ## 2026-06-09 | 不买 Hostinger，用免费技术栈 | Eric + Codex
 
 **决策**：Astro + Cloudflare/Vercel + GitHub + Cloudflare DNS

@@ -6,11 +6,46 @@ interface Props {
 }
 
 const { formula } = Astro.props;
+
+const isLow = formula.confidence === "low";
+const isMedium = formula.confidence === "medium";
+
+const cardBorder = isLow
+  ? "border-slate-300"
+  : isMedium
+    ? "border-teal-200"
+    : "border-teal-200";
+const cardBg = isLow
+  ? "bg-slate-50"
+  : isMedium
+    ? "bg-teal-50/60"
+    : "bg-teal-50";
+const badgeBg = isLow
+  ? "bg-slate-100"
+  : isMedium
+    ? "bg-teal-50"
+    : "bg-white";
+const badgeText = isLow
+  ? "text-slate-600"
+  : isMedium
+    ? "text-teal-800"
+    : "text-teal-900";
+const badgeRing = isLow
+  ? "ring-slate-300"
+  : isMedium
+    ? "ring-teal-300"
+    : "ring-teal-200";
+const dividerColor = isLow ? "border-slate-200" : "border-teal-200";
+
+const confidenceLabel =
+  formula.confidence === "low"
+    ? `${formula.confidence} — verify before relying`
+    : formula.confidence;
 ---
 
 <aside
   id="sources"
-  class="grid gap-4 rounded-lg border border-teal-200 bg-teal-50 p-5 text-sm leading-6 text-slate-800"
+  class={`grid gap-4 rounded-lg border ${cardBorder} ${cardBg} p-5 text-sm leading-6 text-slate-800`}
 >
   <div class="flex flex-wrap items-start justify-between gap-3">
     <div>
@@ -19,25 +54,25 @@ const { formula } = Astro.props;
       </p>
       <p class="mt-1 text-slate-700">{formula.serviceScope}</p>
     </div>
-    <span class="rounded-md bg-white px-3 py-1 text-sm font-semibold text-teal-900 ring-1 ring-teal-200">
-      {formula.confidence}
+    <span class={`rounded-md px-3 py-1 text-sm font-semibold ${badgeBg} ${badgeText} ring-1 ${badgeRing}`}>
+      {confidenceLabel}
     </span>
   </div>
 
-  <dl class="grid border-t border-teal-200 bg-white/60 sm:grid-cols-4">
-    <div class="border-b border-teal-200 p-3 sm:border-b-0 sm:border-r">
+  <dl class={`grid border-t ${dividerColor} bg-white/60 sm:grid-cols-4`}>
+    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
       <dt class="text-xs font-medium uppercase text-slate-500">
         Formula
       </dt>
       <dd class="mt-1 font-medium text-slate-950">{formula.formulaLabel}</dd>
     </div>
-    <div class="border-b border-teal-200 p-3 sm:border-b-0 sm:border-r">
+    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
       <dt class="text-xs font-medium uppercase text-slate-500">
         Confidence
       </dt>
       <dd class="mt-1 font-medium text-slate-950">{formula.confidence}</dd>
     </div>
-    <div class="border-b border-teal-200 p-3 sm:border-b-0 sm:border-r">
+    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
       <dt class="text-xs font-medium uppercase text-slate-500">
         Checked
       </dt>

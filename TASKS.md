@@ -7,19 +7,15 @@
 
 | 任务 | 负责人 | 开始 | 状态 | 参考 |
 |------|--------|------|------|------|
-| 审计修复 review | Claude | 06-10 | ✅ 验收通过 | handoff/2026-06-12-claude-001 |
-| 审计修复 commit | Codex  | 06-12 | ✅ 已提交 | handoff/2026-06-12-codex-001 |
+| — | — | — | — | — |
 
 ## 待分配
 
 | 任务 | 优先级 | 需要角色 | 说明 |
 |------|--------|---------|------|
-| S2 建站工作站设计 | P0 | Claude 设计 → Codex 文档化 | 以 MVP 构建经验反推 |
-| S2 Prompt 库编写 | P1 | Codex | 等 Claude 设计完成 |
-| S3 SEO+上线工作站设计 | P1 | Claude 设计 → Codex 文档化 | 等 S2 完成 |
-| S4 推广+内容工作站设计 | P2 | Claude 设计 → Codex 文档化 | 等 S3 完成 |
+| S2 Prompt 库编写 | P1 | Codex | S2/S3 完整设计已完成，可启动 |
+| S4 推广+内容工作站设计 | P2 | Claude 设计 → Codex 文档化 | 等 S1→S2→S3 首次端到端跑通 |
 | S5 30天复盘工作站设计 | P2 | Claude 设计 → Codex 文档化 | 等 S4 完成 |
-| SITE_URL 域名确定 | P1 | 需 Eric 决策 | 当前环境变量占位 |
 
 ## 已完成（本周）
 
@@ -30,3 +26,5 @@
 | 审计修复 commit | Codex | 06-12 | handoff/2026-06-12-codex-001 |
 | 统一工作区方案 v0.2 定稿 | Claude + Codex | 06-10 | — |
 | S2-S5 工作站 v0.1 骨架 | Codex | 06-10 | handoff/2026-06-10-codex-001 |
+| S2 建站工作站完整设计 | Claude | 06-12 | handoff/2026-06-12-claude-002 |
+| S3 上线部署与 SEO 工作站完整设计 | Claude | 06-12 | handoff/2026-06-12-claude-003 |

@@ -1,0 +1,5 @@
+{
+  "buildCommand": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install"
+}
