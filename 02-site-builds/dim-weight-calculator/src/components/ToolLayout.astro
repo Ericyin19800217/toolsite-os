@@ -21,43 +21,32 @@ const { title, description } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <!-- Airmail stripe -->
-    <div class="airmail-stripe" aria-hidden="true"></div>
-
-    <header class="border-b border-[#d4c5b2] bg-[#fffdf5]/90 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-[#e2e8f0] bg-white/95 backdrop-blur sticky top-0 z-50">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <a
-          class="flex items-center gap-2 group"
-          href="/dimensional-weight-calculator/"
-        >
-          <span class="stamp text-[11px]">DW</span>
-          <span class="text-sm tracking-[0.06em] uppercase text-[#5c4a3a] group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">
-            Shipping Calculator
+        <a class="flex items-center gap-2.5 font-semibold text-[15px] text-[#0f172a] tracking-tight" href="/dimensional-weight-calculator/">
+          <span class="grid size-7 place-items-center rounded-[4px] bg-[#2563eb] text-[11px] font-bold text-white tracking-normal">
+            DW
           </span>
+          Shipping Calculator
         </a>
-        <nav
-          aria-label="Page sections"
-          class="flex flex-wrap items-center gap-4"
-        >
-          <a class="nav-link" href="/dimensional-weight-calculator/#calculator">Calculator</a>
-          <a class="nav-link" href="/dimensional-weight-calculator/#formula">Formula</a>
-          <a class="nav-link" href="/dimensional-weight-calculator/#sources">Sources</a>
-          <a class="nav-link" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
+        <nav aria-label="Page sections" class="flex items-center gap-1 text-[13px] font-medium text-[#64748b]">
+          <a class="px-3 py-1.5 rounded-[4px] hover:text-[#2563eb] hover:bg-[#f8fafc] transition-colors" href="/dimensional-weight-calculator/#calculator">Calculator</a>
+          <a class="px-3 py-1.5 rounded-[4px] hover:text-[#2563eb] hover:bg-[#f8fafc] transition-colors" href="/dimensional-weight-calculator/#formula">Formula</a>
+          <a class="px-3 py-1.5 rounded-[4px] hover:text-[#2563eb] hover:bg-[#f8fafc] transition-colors" href="/dimensional-weight-calculator/#sources">Sources</a>
+          <a class="px-3 py-1.5 rounded-[4px] hover:text-[#2563eb] hover:bg-[#f8fafc] transition-colors" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
         </nav>
       </div>
     </header>
 
-    <main class="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:px-8">
+    <main class="relative mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:px-8">
       <slot />
     </main>
 
-    <footer class="border-t border-[#d4c5b2] mt-16 py-6 text-center">
-      <p class="text-xs text-[#9b8c7c] tracking-wider uppercase" style="font-family:'Courier Prime',monospace">
+    <footer class="border-t border-[#e2e8f0] mt-12 py-6 text-center">
+      <p class="trust-stripe justify-center">
         Estimates only &middot; Not a carrier quote &middot; Verify with your shipper
       </p>
     </footer>
-
-    <div class="airmail-stripe" aria-hidden="true"></div>
 
     <FeedbackWidget client:load />
   </body>

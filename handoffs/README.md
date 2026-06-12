@@ -2,7 +2,8 @@
 
 > 最新 3 条：
 
-1. [2026-06-12-claude-004](./2026-06-12-claude-004.md) — Claude → 全组：S1→S2→S3 端到端验证（dim-weight-calculator）
+1. [2026-06-12-claude-005](./2026-06-12-claude-005.md) — Claude → 全组：last30days 安装+测试+S1-S5优化方案+项目文件更新
+2. [2026-06-12-claude-004](./2026-06-12-claude-004.md) — Claude → 全组：S1→S2→S3 端到端验证（dim-weight-calculator）
 2. [2026-06-12-claude-003](./2026-06-12-claude-003.md) — Claude → Codex：S3 上线部署+SEO 工作站完整设计（12 章）
 3. [2026-06-12-claude-002](./2026-06-12-claude-002.md) — Claude → Codex：S2 建站工作站完整设计（11 章）
 

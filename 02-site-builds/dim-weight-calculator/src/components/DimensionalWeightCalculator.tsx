@@ -48,12 +48,7 @@ function getEffectiveDivisor(
 }
 
 function Plural({ n, word }: { n: number; word: string }) {
-  return (
-    <>
-      {n} {word}
-      {n !== 1 ? "s" : ""}
-    </>
-  );
+  return <>{n} {word}{n !== 1 ? "s" : ""}</>;
 }
 
 export function DimensionalWeightCalculator({
@@ -106,69 +101,33 @@ export function DimensionalWeightCalculator({
   const weightComparison =
     result.status === "valid" && result.value
       ? {
-          dimensionalPercent: `${Math.max(
-            5,
-            Math.round(
-              (result.value.dimensionalWeight / result.value.billableWeight) *
-                100
-            )
-          )}%`,
-          actualPercent: `${Math.max(
-            5,
-            Math.round(
-              (result.value.actualWeight / result.value.billableWeight) * 100
-            )
-          )}%`
+          dimensionalPercent: `${Math.max(5, Math.round((result.value.dimensionalWeight / result.value.billableWeight) * 100))}%`,
+          actualPercent: `${Math.max(5, Math.round((result.value.actualWeight / result.value.billableWeight) * 100))}%`
         }
       : null;
 
   const billableBasis =
     result.status === "valid" && result.value
       ? result.value.dimensionalWeight >= result.value.actualWeight
-        ? "Dimensional weight exceeds actual &mdash; volume-based pricing applies."
-        : "Actual weight exceeds dimensional &mdash; scale pricing applies."
+        ? "Dimensional weight exceeds actual — volumetric pricing applies"
+        : "Actual weight exceeds dimensional — scale weight pricing applies"
       : "";
 
   function updateField(field: keyof CalculatorFormState, value: string): void {
-    setFormState((currentState) => ({
-      ...currentState,
-      [field]: value
-    }));
-  }
-
-  function confClass(c: string) {
-    if (c === "high") return "conf-stamp-high";
-    if (c === "medium") return "conf-stamp-medium";
-    return "conf-stamp-low";
+    setFormState((currentState) => ({ ...currentState, [field]: value }));
   }
 
   return (
-    <section id="calculator" className="card-parcel">
-      {/* Form header */}
-      <div className="border-b border-dashed border-[#c4b5a2] px-6 py-4 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold" style={{fontFamily:"'Courier Prime',monospace"}}>
-            &#9993; Parcel Weight Manifest
-          </p>
-          <p className="text-lg italic text-[#5c4a3a] mt-0.5" style={{fontFamily:"Newsreader,serif"}}>
-            {selectedFormula.label}
-          </p>
-        </div>
-        <span className={`stamp ${confClass(selectedFormula.confidence)}`}>
-          {selectedFormula.confidence} confidence
-        </span>
-      </div>
-
-      {/* Carrier selector */}
-      <div className="px-6 py-3 border-b border-dashed border-[#c4b5a2] flex flex-wrap gap-2">
+    <section id="calculator" className="card">
+      {/* Toolbar — carrier selector */}
+      <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b border-[#e2e8f0] bg-[#f8fafc]/70">
+        <span className="section-label mr-2">Carrier</span>
         {carrierFormulas.map((f) => (
           <button
             key={f.carrier}
             type="button"
             onClick={() => updateField("carrier", f.carrier)}
-            className={`badge-carrier px-3 py-1.5 ${
-              formState.carrier === f.carrier ? "badge-carrier-active" : ""
-            }`}
+            className={`badge ${formState.carrier === f.carrier ? "badge-active" : "badge-neutral"}`}
           >
             {f.label}
           </button>
@@ -177,202 +136,188 @@ export function DimensionalWeightCalculator({
 
       {/* USPS countdown */}
       {isPending && (
-        <div className="mx-6 mt-4 px-4 py-3 bg-[#fdf2f2] border border-[#c41e3a]/20 text-sm text-[#5c4a3a] italic">
-          &#9993; USPS DIM divisor changes from {selectedFormula.divisor} to <strong>{selectedFormula.newDivisor}</strong> in <Plural n={daysUntil} word="day" />. This calculator will switch automatically.
+        <div className="mx-5 mt-4 px-4 py-2.5 bg-[#eff6ff] border border-[#bfdbfe] rounded-[6px] text-[13px] text-[#1e40af]">
+          USPS DIM divisor changes from {selectedFormula.divisor} to <strong>{selectedFormula.newDivisor}</strong> in <Plural n={daysUntil} word="day" />. This calculator will switch automatically.
         </div>
       )}
 
-      {/* Main layout */}
       <div className="grid lg:grid-cols-[1fr_380px]">
         {/* Input form */}
-        <form
-          className="grid gap-5 p-6"
-          onSubmit={(event) => event.preventDefault()}
-        >
+        <form className="grid gap-5 p-5" onSubmit={(e) => e.preventDefault()}>
+          {/* Carrier select */}
+          <label className="grid gap-1.5">
+            <span className="section-label">Carrier preset</span>
+            <select
+              className="select-field"
+              value={formState.carrier}
+              onChange={(e) => updateField("carrier", e.target.value as CarrierId)}
+            >
+              {carrierFormulas.map((f) => (
+                <option key={f.carrier} value={f.carrier}>
+                  {f.label} — {f.formulaLabel}
+                </option>
+              ))}
+            </select>
+          </label>
+
           {/* Dimensions */}
-          <fieldset className="grid gap-4">
-            <legend className="form-label">Package Dimensions ({dimensionUnit})</legend>
+          <fieldset className="grid gap-3">
+            <legend className="section-label">Dimensions ({dimensionUnit})</legend>
             <div className="grid gap-3 sm:grid-cols-3">
               {(["length", "width", "height"] as const).map((field) => (
                 <label key={field} className="grid gap-1.5">
-                  <span className="form-label">{field}</span>
+                  <span className="section-label">{field}</span>
                   <input
-                    className="input-parcel px-3 py-2.5 w-full"
+                    className="input-field font-mono"
                     inputMode="decimal"
                     min="0.01"
                     step="any"
                     type="number"
                     value={formState[field]}
-                    onChange={(event) => updateField(field, event.target.value)}
+                    onChange={(e) => updateField(field, e.target.value)}
                   />
                 </label>
               ))}
             </div>
           </fieldset>
 
-          <hr className="section-divider" />
-
           {/* Weight & Divisor */}
-          <fieldset className="grid gap-4">
-            <legend className="form-label">Weight &amp; DIM Divisor</legend>
+          <fieldset className="grid gap-3">
+            <legend className="section-label">Weight &amp; divisor</legend>
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="grid gap-1.5">
-                <span className="form-label">Actual Weight ({weightUnit})</span>
+                <span className="section-label">Actual weight ({weightUnit})</span>
                 <input
-                  className="input-parcel px-3 py-2.5 w-full"
+                  className="input-field font-mono"
                   inputMode="decimal"
                   min="0.01"
                   step="any"
                   type="number"
                   value={formState.actualWeight}
-                  onChange={(event) =>
-                    updateField("actualWeight", event.target.value)
-                  }
+                  onChange={(e) => updateField("actualWeight", e.target.value)}
                 />
               </label>
-
               <label className="grid gap-1.5">
-                <span className="form-label">
-                  DIM Divisor
-                  {isCustomCarrier ? "" : ` (${effectiveDivisor})`}
+                <span className="section-label">
+                  DIM divisor{!isCustomCarrier ? ` (${effectiveDivisor})` : ""}
                 </span>
                 <input
-                  className="input-parcel px-3 py-2.5 w-full disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="input-field font-mono"
                   disabled={!isCustomCarrier}
                   inputMode="decimal"
                   min="0.01"
                   step="any"
                   type="number"
-                  value={
-                    isCustomCarrier
-                      ? formState.customDivisor
-                      : String(effectiveDivisor)
-                  }
-                  onChange={(event) =>
-                    updateField("customDivisor", event.target.value)
-                  }
+                  value={isCustomCarrier ? formState.customDivisor : String(effectiveDivisor)}
+                  onChange={(e) => updateField("customDivisor", e.target.value)}
                 />
               </label>
             </div>
           </fieldset>
-
-          {/* Carrier select */}
-          <hr className="section-divider" />
-
-          <label className="grid gap-1.5">
-            <span className="form-label">Carrier Preset</span>
-            <select
-              className="select-parcel px-3 py-2.5 w-full"
-              value={formState.carrier}
-              onChange={(event) =>
-                updateField("carrier", event.target.value as CarrierId)
-              }
-            >
-              {carrierFormulas.map((formula) => (
-                <option key={formula.carrier} value={formula.carrier}>
-                  {formula.label} &mdash; {formula.formulaLabel}
-                </option>
-              ))}
-            </select>
-          </label>
         </form>
 
         {/* Result panel */}
         <aside
-          className="border-l border-dashed border-[#c4b5a2] bg-[#faf7f0] p-6 flex flex-col"
+          className="lg:border-l border-[#e2e8f0] bg-[#f8fafc]/50 p-6 flex flex-col"
           aria-label="Calculation result"
           aria-live="polite"
           role="status"
         >
           {result.status === "valid" && result.value ? (
-            <div className="grid gap-6">
-              {/* Big number */}
-              <div className="text-center">
-                <p className="form-label mb-4">Billable Weight</p>
-                <p className="billable-number">
+            <div className="grid gap-5">
+              {/* Billable weight — big number */}
+              <div>
+                <p className="section-label mb-2">Billable weight</p>
+                <p className="font-mono text-[64px] font-semibold leading-none tracking-tight text-[#0f172a]">
                   {result.value.billableWeight}
+                  <span className="text-2xl text-[#64748b] ml-2 font-medium">
+                    {result.value.unitLabel}
+                  </span>
                 </p>
-                <p className="text-lg italic text-[#5c4a3a] mt-1">
-                  {result.value.unitLabel}
+                <p className="text-[13px] text-[#64748b] mt-2 leading-relaxed">
+                  {billableBasis}
                 </p>
-                <p
-                  className="text-xs text-[#9b8c7c] mt-3 max-w-xs mx-auto leading-relaxed italic"
-                  dangerouslySetInnerHTML={{ __html: billableBasis }}
-                />
               </div>
 
-              {/* Comparison */}
-              {weightComparison ? (
-                <div className="grid gap-4 bg-white/60 p-4 border border-[#d4c5b2]">
-                  <p className="form-label">Weight Breakdown</p>
+              {/* Weight bars */}
+              {weightComparison && (
+                <div className="grid gap-3 bg-white border border-[#e2e8f0] rounded-[6px] p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="section-label">Weight comparison</span>
+                    <span className="font-mono text-[11px] text-[#64748b]">
+                      {formState.length || "0"}&times;{formState.width || "0"}&times;{formState.height || "0"} {dimensionUnit}
+                    </span>
+                  </div>
 
-                  <div className="grid gap-1.5">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-[#5c4a3a]" style={{fontFamily:"'Courier Prime',monospace"}}>DIM</span>
-                      <span className="font-semibold" style={{fontFamily:"'Courier Prime',monospace"}}>
+                  <div className="grid gap-1">
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-[#64748b]">Dimensional</span>
+                      <span className="font-mono font-semibold text-[#2563eb]">
                         {result.value.dimensionalWeight} {result.value.unitLabel}
                       </span>
                     </div>
                     <div className="bar-track">
-                      <div
-                        className="bar-fill-dim"
-                        style={{ width: weightComparison.dimensionalPercent }}
-                      />
+                      <div className="bar-fill-primary" style={{ width: weightComparison.dimensionalPercent }} />
                     </div>
                   </div>
 
-                  <div className="grid gap-1.5">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-[#5c4a3a]" style={{fontFamily:"'Courier Prime',monospace"}}>Actual</span>
-                      <span className="font-semibold" style={{fontFamily:"'Courier Prime',monospace"}}>
+                  <div className="grid gap-1">
+                    <div className="flex items-center justify-between text-[13px]">
+                      <span className="text-[#64748b]">Actual</span>
+                      <span className="font-mono font-semibold text-[#64748b]">
                         {result.value.actualWeight} {result.value.unitLabel}
                       </span>
                     </div>
                     <div className="bar-track">
-                      <div
-                        className="bar-fill-actual"
-                        style={{ width: weightComparison.actualPercent }}
-                      />
+                      <div className="bar-fill-secondary" style={{ width: weightComparison.actualPercent }} />
                     </div>
                   </div>
-
-                  <p className="text-[10px] text-[#9b8c7c] text-center italic">
-                    {formState.length}&times;{formState.width}&times;{formState.height} {dimensionUnit}
-                    &nbsp;&middot;&nbsp; vol {result.value.cubicSize} in&sup3;
-                  </p>
                 </div>
-              ) : null}
+              )}
 
-              {/* Source stamp */}
-              <div className="flex flex-wrap items-center gap-3 text-[10px] text-[#5c4a3a] italic border-t border-dashed border-[#c4b5a2] pt-4">
-                <span>Source: {result.formula.sourceDate ?? "see notes"}</span>
-                {result.formula.sourceUrl ? (
-                  <a
-                    href={result.formula.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline underline-offset-2 decoration-[#d4c5b2] hover:decoration-[#c41e3a] transition-colors"
-                  >
-                    View &rarr;
-                  </a>
-                ) : null}
-              </div>
+              {/* Detail rows */}
+              <dl className="grid gap-0 border-t border-[#e2e8f0]">
+                {[
+                  { label: "Dimensional weight", value: result.value.dimensionalWeight },
+                  { label: "Actual weight", value: result.value.actualWeight },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center justify-between py-2.5 border-b border-[#e2e8f0] text-[13px]">
+                    <dt className="text-[#64748b]">{row.label}</dt>
+                    <dd className="font-mono font-semibold">{row.value} {result.value!.unitLabel}</dd>
+                  </div>
+                ))}
+                <div className="flex items-center justify-between py-2.5 border-b border-[#e2e8f0] text-[13px]">
+                  <dt className="text-[#64748b]">Formula</dt>
+                  <dd className="font-mono text-[#64748b]">{result.formula.formulaLabel}</dd>
+                </div>
+                <div className="flex items-center justify-between py-2.5 text-[13px]">
+                  <dt className="text-[#64748b]">Source confidence</dt>
+                  <dd>
+                    <span className={`badge ${result.formula.confidence === "high" ? "badge-active" : result.formula.confidence === "medium" ? "badge-neutral" : "badge-neutral"}`}>
+                      {result.formula.confidence}
+                    </span>
+                  </dd>
+                </div>
+              </dl>
+
+              {result.formula.sourceUrl && (
+                <a href={result.formula.sourceUrl} target="_blank" rel="noreferrer" className="source-link inline-block w-fit">
+                  View carrier source &rarr;
+                </a>
+              )}
             </div>
           ) : (
             <div className="flex-1 grid place-items-center text-center">
               <div>
-                <p className="text-4xl italic text-[#d4c5b2] mb-3">&para;</p>
-                <p className="text-sm italic text-[#9b8c7c]">
-                  Enter package dimensions<br />and weight above
-                </p>
+                <p className="text-[64px] font-light text-[#e2e8f0] font-mono mb-3">&mdash;</p>
+                <p className="text-[13px] text-[#64748b]">Enter dimensions and weight above</p>
               </div>
             </div>
           )}
 
-          {/* Bottom note */}
-          <div className="mt-auto pt-4 border-t border-dashed border-[#c4b5a2]">
-            <p className="text-[10px] text-[#9b8c7c] italic">
-              This is an estimate for planning purposes. Carrier rules, rounding, and surcharges may differ. Confirm final charges with your carrier before purchasing postage.
+          <div className="mt-auto pt-4 border-t border-[#e2e8f0]">
+            <p className="text-[11px] text-[#94a3b8] leading-relaxed">
+              Estimate for planning only. Carrier rules, rounding, and surcharges may differ. Confirm final charges with your carrier.
             </p>
           </div>
         </aside>

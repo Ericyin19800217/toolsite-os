@@ -1,275 +1,255 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @import "tailwindcss";
 
+/* Modern Minimal — UPS/FedEx professional */
+/* Direction: clean, trustworthy, information-forward */
+
 :root {
-  --paper: #f7f3eb;
-  --paper-bright: #fffdf5;
-  --paper-dark: #ede6d7;
-  --ink: #2c1810;
-  --ink-soft: #5c4a3a;
-  --ink-faded: #9b8c7c;
-  --red-airmail: #c41e3a;
-  --red-faded: #d49595;
-  --blue-airmail: #1b3a5c;
-  --blue-faded: #7b98b0;
-  --border-form: #d4c5b2;
-  --border-dashed: #c4b5a2;
-  --stamp-green: #3d6b4f;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --surface: #f8fafc;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   color-scheme: light;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "Newsreader", Georgia, "Times New Roman", serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-/* Paper grain texture */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.4;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+/* All CAPS tracking — most-skipped rule */
+h1, h2, h3,
+[class*="uppercase"],
+nav a,
+button[class*="uppercase"] {
+  letter-spacing: 0.02em;
 }
 
-button,
-input,
-select {
-  font: inherit;
-}
-
-/* Typewriter data */
+/* Mono for numbers and data */
 .font-mono,
 input[type="number"],
-.mono-value {
-  font-family: "Courier Prime", "Courier New", monospace;
+.mono-value,
+code,
+pre {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-/* Airmail border strip */
-.airmail-stripe {
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--red-airmail),
-    var(--red-airmail) 8px,
-    var(--paper-bright) 8px,
-    var(--paper-bright) 16px,
-    var(--blue-airmail) 16px,
-    var(--blue-airmail) 24px,
-    var(--paper-bright) 24px,
-    var(--paper-bright) 32px
-  );
-  height: 6px;
+/* Display headings */
+.display-font,
+h1, h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+/* Input fields */
+.input-field {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  font-size: 15px;
+  padding: 0.625rem 0.875rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
   width: 100%;
 }
 
-/* Postmark circle stamp */
-.stamp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--ink-faded);
-  border-radius: 50%;
-  font-family: "Courier Prime", monospace;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-soft);
-  padding: 6px 10px;
-  transform: rotate(-3deg);
-  position: relative;
-}
+.input-field:hover { border-color: #94a3b8; }
 
-.stamp::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border: 1px dashed var(--ink-faded);
-  border-radius: 50%;
-  opacity: 0.5;
-}
-
-/* Form card */
-.card-parcel {
-  background: var(--paper-bright);
-  border: 1px solid var(--border-form);
-  box-shadow: 2px 3px 0 rgba(44, 24, 16, 0.06);
-  position: relative;
-}
-
-/* Dashed section divider */
-.section-divider {
-  border: none;
-  border-top: 1px dashed var(--border-dashed);
-  margin: 0;
-}
-
-/* Form label style */
-.form-label {
-  font-family: "Courier Prime", monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-soft);
-}
-
-/* Typewriter input */
-.input-parcel {
-  background: var(--paper);
-  border: 1px solid var(--border-form);
-  border-radius: 2px;
-  color: var(--ink);
-  font-family: "Courier Prime", monospace;
-  font-size: 15px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.input-parcel:hover {
-  border-color: var(--ink-faded);
-}
-
-.input-parcel:focus {
+.input-field:focus {
   outline: none;
-  border-color: var(--blue-airmail);
-  box-shadow: 0 0 0 2px rgba(27, 58, 92, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.input-parcel:disabled {
+.input-field:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  background: var(--paper-dark);
+  background: var(--surface);
 }
 
 /* Select */
-.select-parcel {
-  background: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235c4a3a'/%3E%3C/svg%3E");
+.select-field {
+  background: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  border: 1px solid var(--border-form);
-  border-radius: 2px;
-  color: var(--ink);
-  font-family: "Courier Prime", monospace;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
   font-size: 14px;
-  padding-right: 32px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 0.625rem 2rem 0.625rem 0.875rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
 }
 
-.select-parcel:hover {
-  border-color: var(--ink-faded);
-}
+.select-field:hover { border-color: #94a3b8; }
 
-.select-parcel:focus {
+.select-field:focus {
   outline: none;
-  border-color: var(--blue-airmail);
-  box-shadow: 0 0 0 2px rgba(27, 58, 92, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Carrier badge */
-.badge-carrier {
-  font-family: "Courier Prime", monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border: 1px solid var(--border-form);
-  background: var(--paper);
-  transition: all 0.15s;
+/* Card */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
-.badge-carrier-active {
-  background: var(--blue-airmail);
-  color: var(--paper-bright);
-  border-color: var(--blue-airmail);
+/* No shadow cards (inner sections) */
+.card-flat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
-/* Big result number */
-.billable-number {
-  font-family: "Courier Prime", monospace;
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ink);
-  letter-spacing: -0.02em;
+/* Buttons */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: translateY(1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  font-weight: 500;
+}
+
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Badge / Tag */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+}
+
+.badge-active {
+  background: var(--accent);
+  color: white;
+}
+
+.badge-neutral {
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
 }
 
 /* Progress bar */
 .bar-track {
-  background: var(--paper-dark);
+  background: var(--surface);
+  border-radius: 2px;
   height: 6px;
+  overflow: hidden;
 }
 
-.bar-fill-dim {
-  background: var(--red-airmail);
+.bar-fill-primary {
+  background: var(--accent);
   height: 100%;
-  transition: width 0.5s;
+  border-radius: 2px;
+  transition: width 0.4s ease;
 }
 
-.bar-fill-actual {
-  background: var(--blue-airmail);
+.bar-fill-secondary {
+  background: #64748b;
   height: 100%;
-  transition: width 0.5s;
+  border-radius: 2px;
+  transition: width 0.4s ease;
 }
 
-/* Button primary */
-.btn-post {
-  background: var(--red-airmail);
-  color: var(--paper-bright);
-  font-family: "Courier Prime", monospace;
+/* Divider */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* Section label */
+.section-label {
+  font-size: 10px;
   font-weight: 700;
-  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: none;
-  transition: background 0.15s;
+  color: var(--muted);
 }
 
-.btn-post:hover {
-  background: #a01830;
+/* Source link */
+.source-link {
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--border);
+  transition: color 0.15s, text-decoration-color 0.15s;
 }
 
-/* Nav link */
-.nav-link {
-  color: var(--ink-soft);
-  font-family: "Courier Prime", monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: color 0.15s;
+.source-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
-.nav-link:hover {
-  color: var(--red-airmail);
+/* UPS/FedEx-style trust badge */
+.trust-stripe {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.5rem 0;
 }
 
-/* Confidence stamp */
-.conf-stamp-high {
-  border-color: var(--stamp-green);
-  color: var(--stamp-green);
-}
-
-.conf-stamp-medium {
-  border-color: var(--blue-airmail);
-  color: var(--blue-airmail);
-}
-
-.conf-stamp-low {
-  border-color: var(--ink-faded);
-  color: var(--ink-faded);
+.trust-stripe::before {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
 }

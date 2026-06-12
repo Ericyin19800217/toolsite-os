@@ -6,50 +6,39 @@ import ToolLayout from "../components/ToolLayout.astro";
   title="Dimensional Weight Calculator for UPS, FedEx, USPS &amp; DHL"
   description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors."
 >
-  <section class="grid gap-10 py-10 md:py-16">
-    <div class="grid gap-5">
-      <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">
-        Free Multi-Carrier Tool
-      </p>
-      <h1 class="text-4xl md:text-7xl font-light italic leading-none tracking-tight text-[#2c1810] max-w-4xl">
-        Dimensional Weight<br />
-        <span class="font-normal not-italic text-[#c41e3a] block mt-1" style="font-family:'Courier Prime',monospace">Calculator</span>
+  <section class="grid gap-8 py-8 md:py-12">
+    <div class="grid gap-4">
+      <p class="section-label">Free multi-carrier tool</p>
+      <h1 class="text-[40px] md:text-[56px] font-bold leading-[1.08] tracking-tight text-[#0f172a] max-w-4xl">
+        Dimensional Weight Calculator
       </h1>
-      <p class="max-w-xl text-base leading-relaxed text-[#5c4a3a] italic mt-2">
+      <p class="max-w-xl text-[15px] text-[#64748b] leading-relaxed">
         Estimate billable weight across UPS, FedEx, USPS, DHL, and custom DIM divisors.
-        Built for shippers, sellers, and logistics professionals.
+        Built for shippers, e-commerce sellers, and logistics professionals.
       </p>
     </div>
 
     <div class="grid gap-3">
-      <p class="form-label">Select a carrier</p>
+      <p class="section-label">Select a carrier</p>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <a href="/fedex-dimensional-weight-calculator/" class="card-parcel p-5 group hover:border-[#c41e3a] transition-colors">
-          <p class="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">FedEx</p>
-          <p class="mt-2 text-2xl text-[#2c1810]" style="font-family:'Courier Prime',monospace">/ 139</p>
-          <p class="mt-1 text-xs italic text-[#9b8c7c]">U.S. &amp; International</p>
-        </a>
-        <a href="/ups-dimensional-weight-calculator/" class="card-parcel p-5 group hover:border-[#c41e3a] transition-colors">
-          <p class="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">UPS</p>
-          <p class="mt-2 text-2xl text-[#2c1810]" style="font-family:'Courier Prime',monospace">/ 139</p>
-          <p class="mt-1 text-xs italic text-[#9b8c7c]">Daily Rates</p>
-          <p class="text-[10px] text-[#c41e3a] italic">Retail: 166</p>
-        </a>
-        <a href="/usps-dimensional-weight-calculator/" class="card-parcel p-5 group hover:border-[#c41e3a] transition-colors">
-          <p class="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">USPS</p>
-          <p class="mt-2 text-2xl text-[#2c1810]" style="font-family:'Courier Prime',monospace">/ 166</p>
-          <p class="mt-1 text-xs text-[#c41e3a] italic">&rarr; 139 on Jul 12</p>
-        </a>
-        <a href="/dhl-volumetric-weight-calculator/" class="card-parcel p-5 group hover:border-[#c41e3a] transition-colors">
-          <p class="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">DHL</p>
-          <p class="mt-2 text-2xl text-[#2c1810]" style="font-family:'Courier Prime',monospace">/ 5000</p>
-          <p class="mt-1 text-xs italic text-[#9b8c7c]">cm&sup3;/kg &middot; Express</p>
-        </a>
-        <a href="/dimensional-weight-calculator/" class="card-parcel p-5 group border-[#c41e3a]/30 bg-[#fdf2f2]/50">
-          <p class="text-xs tracking-[0.1em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">All Carriers</p>
-          <p class="mt-2 text-2xl text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Compare</p>
-          <p class="mt-1 text-xs italic text-[#9b8c7c]">Full calculator</p>
-        </a>
+        {[
+          { href: "/fedex-dimensional-weight-calculator/", carrier: "FedEx", div: "139", note: "U.S. &amp; International", accent: false },
+          { href: "/ups-dimensional-weight-calculator/", carrier: "UPS", div: "139", note: "Daily Rates", sub: "Retail: 166", accent: false },
+          { href: "/usps-dimensional-weight-calculator/", carrier: "USPS", div: "166", note: "&rarr; 139 Jul 12", sub: "", accent: true },
+          { href: "/dhl-volumetric-weight-calculator/", carrier: "DHL", div: "5000", note: "cm&sup3;/kg &middot; Express", accent: false },
+          { href: "/dimensional-weight-calculator/", carrier: "All Carriers", div: "Compare", note: "Full calculator", accent: false, primary: true },
+        ].map((c) => (
+          <a href={c.href} class={`card-flat p-4 hover:border-[#2563eb] transition-colors group ${c.primary ? "border-[#2563eb]/30 bg-[#eff6ff]" : ""}`}>
+            <p class={`text-[11px] font-semibold tracking-[0.04em] uppercase ${c.primary ? "text-[#2563eb]" : "text-[#64748b]"} group-hover:text-[#2563eb] transition-colors`}>
+              {c.carrier}
+            </p>
+            <p class={`mt-1.5 font-mono text-xl font-semibold ${c.primary ? "text-[#2563eb]" : "text-[#0f172a]"}`}>
+              / {c.div}
+            </p>
+            <p class="mt-0.5 text-[12px] text-[#94a3b8]">{c.note}</p>
+            {c.sub && <p class="text-[11px] text-[#2563eb] mt-0.5">{c.sub}</p>}
+          </a>
+        ))}
       </div>
     </div>
   </section>

@@ -9,23 +9,20 @@ const fedexFormula = getFormulaByCarrier("fedex");
 
 <ToolLayout
   title="Dimensional Weight Calculator for UPS, FedEx, USPS &amp; DHL"
-  description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors. Supports inches/lbs and cm/kg."
+  description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors."
 >
-  <section class="grid gap-6 pb-8 border-b border-dashed border-[#c4b5a2]">
-    <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">
-      Free Multi-Carrier Tool &mdash; Estimates Only
-    </p>
-    <h1 class="text-4xl md:text-6xl font-light italic leading-tight text-[#2c1810] tracking-tight max-w-4xl">
-      Dimensional Weight<br />
-      <span class="font-normal not-italic text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Calculator</span>
+  <section class="grid gap-4 pb-6 border-b border-[#e2e8f0]">
+    <p class="section-label">Free multi-carrier tool</p>
+    <h1 class="text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-[#0f172a] max-w-3xl">
+      Dimensional Weight Calculator
     </h1>
-    <p class="max-w-2xl text-base leading-relaxed text-[#5c4a3a] italic">
+    <p class="max-w-2xl text-[15px] text-[#64748b] leading-relaxed">
       Estimate billable weight for UPS, FedEx, USPS, DHL, or a custom DIM divisor
       before you buy a label or quote a shipment.
     </p>
-    <div class="flex flex-wrap gap-2">
+    <div class="flex flex-wrap gap-1.5">
       {["UPS","FedEx","USPS","DHL","Custom"].map((c) => (
-        <span class="badge-carrier px-3 py-1">{c}</span>
+        <span class="badge badge-neutral">{c}</span>
       ))}
     </div>
   </section>
@@ -34,36 +31,33 @@ const fedexFormula = getFormulaByCarrier("fedex");
 
   <FormulaSourceNote formula={fedexFormula} />
 
-  <section id="formula" class="grid gap-4 pt-6">
-    <h2 class="text-2xl italic font-light text-[#2c1810]">What is dimensional weight?</h2>
-    <p class="text-sm leading-relaxed text-[#5c4a3a] max-w-3xl">
-      Dimensional weight&mdash;also called <em>DIM weight</em> or <em>volumetric weight</em>&mdash;is a pricing
-      weight based on how much space a package occupies. Carriers compare it with the
-      package&rsquo;s actual scale weight and charge whichever is higher.
+  <section id="formula" class="grid gap-3 pt-6">
+    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">What is dimensional weight?</h2>
+    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
+      Dimensional weight (DIM weight) is a pricing weight based on how much space a
+      package occupies. Carriers compare it with the actual scale weight and charge
+      whichever is higher.
     </p>
-    <div class="bg-[#faf7f0] border border-dashed border-[#c4b5a2] p-5 inline-block">
-      <p class="text-sm text-[#2c1810]" style="font-family:'Courier Prime',monospace">
-        DIM weight = L &times; W &times; H / divisor
-      </p>
-    </div>
-  </section>
-
-  <section class="grid gap-4 pt-6 border-t border-dashed border-[#c4b5a2]">
-    <h2 class="text-2xl italic font-light text-[#2c1810]">Standard divisors</h2>
-    <p class="text-sm leading-relaxed text-[#5c4a3a] max-w-3xl">
-      FedEx and UPS commonly use a divisor of <strong>139</strong> for daily-rate shippers.
-      USPS currently uses <strong>166</strong>, changing to 139 on July 12, 2026.
-      DHL Express uses <strong>5000</strong> cm&sup3;/kg for international volumetric weight.
+    <p class="font-mono text-[14px] text-[#0f172a] bg-[#f8fafc] border border-[#e2e8f0] rounded-[4px] p-4 inline-block w-fit">
+      DIM weight = L &times; W &times; H / divisor
     </p>
   </section>
 
-  <section id="disclaimer" class="grid gap-4 pt-6 border-t border-dashed border-[#c4b5a2]">
-    <h2 class="text-2xl italic font-light text-[#2c1810]">Disclaimer</h2>
-    <p class="text-sm leading-relaxed text-[#5c4a3a] max-w-3xl italic">
+  <section class="grid gap-3 pt-6 border-t border-[#e2e8f0]">
+    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">Standard divisors</h2>
+    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
+      FedEx and UPS commonly use divisor <strong class="text-[#0f172a]">139</strong> for daily-rate shippers.
+      USPS currently uses <strong class="text-[#0f172a]">166</strong>, changing to 139 on July 12, 2026.
+      DHL Express uses <strong class="text-[#0f172a]">5000</strong> cm&sup3;/kg for international volumetric weight.
+    </p>
+  </section>
+
+  <section id="disclaimer" class="grid gap-3 pt-6 border-t border-[#e2e8f0]">
+    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">Disclaimer</h2>
+    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
       This calculator provides estimates for planning and comparison only. Carrier
-      rules, rounding, surcharges, service types, regions, and contract rates can
-      change. Always confirm the final billable weight and charge with your carrier
-      or shipping platform before purchasing postage.
+      rules, rounding, surcharges, and contract rates can change. Always confirm
+      the final billable weight with your carrier before purchasing postage.
     </p>
   </section>
 </ToolLayout>

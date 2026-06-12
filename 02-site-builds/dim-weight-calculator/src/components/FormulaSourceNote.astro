@@ -6,70 +6,52 @@ interface Props {
 }
 
 const { formula } = Astro.props;
-
-const isLow = formula.confidence === "low";
 const isHigh = formula.confidence === "high";
-
-const confClass = isLow ? "conf-stamp-low" : isHigh ? "conf-stamp-high" : "conf-stamp-medium";
 ---
 
-<aside id="sources" class="card-parcel">
-  <div class="border-b border-dashed border-[#c4b5a2] px-6 py-4 flex flex-wrap items-start justify-between gap-3">
+<aside id="sources" class="card">
+  <div class="px-5 py-4 border-b border-[#e2e8f0] flex flex-wrap items-center justify-between gap-3">
     <div>
-      <p class="text-xs tracking-[0.1em] uppercase text-[#9b8c7c] font-semibold" style="font-family:'Courier Prime',monospace">
-        &#9993; Source Manifest
+      <p class="text-[15px] font-semibold text-[#0f172a] tracking-tight">
+        {formula.label} — Source Data
       </p>
-      <p class="text-lg italic text-[#5c4a3a] mt-0.5">
-        {formula.label}
-      </p>
+      <p class="text-[13px] text-[#64748b] mt-0.5">{formula.serviceScope}</p>
     </div>
-    <span class={`stamp ${confClass}`}>
+    <span class={`badge ${isHigh ? "badge-active" : "badge-neutral"}`}>
       {formula.confidence} confidence
     </span>
   </div>
 
-  <div class="p-6 grid gap-4">
-    <p class="text-sm text-[#5c4a3a] leading-relaxed italic">{formula.serviceScope}</p>
-
-    <dl class="grid sm:grid-cols-4 border border-dashed border-[#c4b5a2]">
-      <div class="border-b sm:border-b-0 sm:border-r border-dashed border-[#c4b5a2] p-3">
-        <dt class="form-label mb-1">Formula</dt>
-        <dd class="text-sm text-[#2c1810]" style="font-family:'Courier Prime',monospace">{formula.formulaLabel}</dd>
+  <div class="p-5 grid gap-4">
+    <dl class="grid sm:grid-cols-4 border border-[#e2e8f0] rounded-[4px] overflow-hidden">
+      <div class="p-3 border-b sm:border-b-0 sm:border-r border-[#e2e8f0]">
+        <dt class="section-label mb-1">Formula</dt>
+        <dd class="font-mono text-[14px] font-medium text-[#0f172a]">{formula.formulaLabel}</dd>
       </div>
-      <div class="border-b sm:border-b-0 sm:border-r border-dashed border-[#c4b5a2] p-3">
-        <dt class="form-label mb-1">Confidence</dt>
-        <dd class="text-sm text-[#5c4a3a] italic">{formula.confidence}</dd>
+      <div class="p-3 border-b sm:border-b-0 sm:border-r border-[#e2e8f0]">
+        <dt class="section-label mb-1">Confidence</dt>
+        <dd class="text-[13px] text-[#64748b]">{formula.confidence}</dd>
       </div>
-      <div class="border-b sm:border-b-0 sm:border-r border-dashed border-[#c4b5a2] p-3">
-        <dt class="form-label mb-1">Verified</dt>
-        <dd class="text-sm text-[#5c4a3a] italic">
-          {formula.sourceDate ?? "Needs source review before launch"}
-        </dd>
+      <div class="p-3 border-b sm:border-b-0 sm:border-r border-[#e2e8f0]">
+        <dt class="section-label mb-1">Verified</dt>
+        <dd class="text-[13px] text-[#64748b]">{formula.sourceDate ?? "Needs source review before launch"}</dd>
       </div>
       <div class="p-3">
-        <dt class="form-label mb-1">Rounding</dt>
-        <dd class="text-xs text-[#9b8c7c] leading-relaxed italic">{formula.roundingNote}</dd>
+        <dt class="section-label mb-1">Rounding</dt>
+        <dd class="text-[12px] text-[#64748b] leading-relaxed">{formula.roundingNote}</dd>
       </div>
     </dl>
 
-    {
-      formula.sourceUrl && (
-        <a
-          class="inline-flex items-center gap-1.5 w-fit text-xs tracking-wider uppercase underline underline-offset-2 decoration-[#d4c5b2] hover:decoration-[#c41e3a] text-[#5c4a3a] hover:text-[#c41e3a] transition-colors"
-          style="font-family:'Courier Prime',monospace"
-          href={formula.sourceUrl}
-          rel="noreferrer"
-          target="_blank"
-        >
-          View Source &rarr;
-        </a>
-      )
-    }
+    {formula.sourceUrl && (
+      <a href={formula.sourceUrl} target="_blank" rel="noreferrer" class="source-link w-fit">
+        View carrier source &rarr;
+      </a>
+    )}
   </div>
 
-  {formula.notes ? (
-    <div class="border-t border-dashed border-[#c4b5a2] px-6 py-3">
-      <p class="text-xs text-[#9b8c7c] leading-relaxed italic">{formula.notes}</p>
+  {formula.notes && (
+    <div class="border-t border-[#e2e8f0] px-5 py-3 bg-[#f8fafc]/50">
+      <p class="text-[12px] text-[#64748b] leading-relaxed">{formula.notes}</p>
     </div>
-  ) : null}
+  )}
 </aside>
