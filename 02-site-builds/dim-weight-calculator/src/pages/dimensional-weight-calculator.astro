@@ -1,63 +1,229 @@
 ---
-import { DimensionalWeightCalculator } from "../components/DimensionalWeightCalculator";
+import AllCarriersCalculator from "../components/AllCarriersCalculator";
 import FormulaSourceNote from "../components/FormulaSourceNote.astro";
 import ToolLayout from "../components/ToolLayout.astro";
 import { getFormulaByCarrier } from "../content/formulaSources";
+import "../styles/visual.css";
 
 const fedexFormula = getFormulaByCarrier("fedex");
 ---
 
 <ToolLayout
-  title="Dimensional Weight Calculator for UPS, FedEx, USPS &amp; DHL"
-  description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors."
+  title="Dimensional Weight Calculator — Compare UPS, FedEx, USPS &amp; DHL Billable Weight"
+  description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors. See exactly how much overcharge you're paying — and how to avoid it."
 >
-  <section class="grid gap-4 pb-6 border-b border-[#e2e8f0]">
-    <p class="section-label">Free multi-carrier tool</p>
-    <h1 class="text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-[#0f172a] max-w-3xl">
-      Dimensional Weight Calculator
+
+  <!-- ===== Scene 1: Hero ===== -->
+  <section class="hero scene">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Free multi-carrier shipping tool
+    </div>
+    <h1 class="hero-title">
+      Stop paying to ship <span class="hero-title-accent">empty space</span>
     </h1>
-    <p class="max-w-2xl text-[15px] text-[#64748b] leading-relaxed">
-      Estimate billable weight for UPS, FedEx, USPS, DHL, or a custom DIM divisor
-      before you buy a label or quote a shipment.
+    <p class="hero-subtitle">
+      Your carrier charges for the space your box occupies — not just its weight.
+      Use this calculator before every quote to compare real billable weight across all four major carriers.
     </p>
-    <div class="flex flex-wrap gap-1.5">
-      {["UPS","FedEx","USPS","DHL","Custom"].map((c) => (
-        <span class="badge badge-neutral">{c}</span>
-      ))}
+    <div class="hero-carriers">
+      <span class="hero-carrier-pill">📦 FedEx / 139</span>
+      <span class="hero-carrier-pill">📦 UPS / 139</span>
+      <span class="hero-carrier-pill">📫 USPS / 166→139</span>
+      <span class="hero-carrier-pill">🌐 DHL / 5000</span>
     </div>
   </section>
 
-  <DimensionalWeightCalculator client:visible defaultCarrier="fedex" />
-
-  <FormulaSourceNote formula={fedexFormula} />
-
-  <section id="formula" class="grid gap-3 pt-6">
-    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">What is dimensional weight?</h2>
-    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
-      Dimensional weight (DIM weight) is a pricing weight based on how much space a
-      package occupies. Carriers compare it with the actual scale weight and charge
-      whichever is higher.
-    </p>
-    <p class="font-mono text-[14px] text-[#0f172a] bg-[#f8fafc] border border-[#e2e8f0] rounded-[4px] p-4 inline-block w-fit">
-      DIM weight = L &times; W &times; H / divisor
-    </p>
+  <!-- ===== Scene 2: Calculator + Visual Results + Loss ===== -->
+  <section class="scene scene-delay-1">
+    <AllCarriersCalculator client:visible />
   </section>
 
-  <section class="grid gap-3 pt-6 border-t border-[#e2e8f0]">
-    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">Standard divisors</h2>
-    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
-      FedEx and UPS commonly use divisor <strong class="text-[#0f172a]">139</strong> for daily-rate shippers.
-      USPS currently uses <strong class="text-[#0f172a]">166</strong>, changing to 139 on July 12, 2026.
-      DHL Express uses <strong class="text-[#0f172a]">5000</strong> cm&sup3;/kg for international volumetric weight.
-    </p>
+  <!-- USPS Alert -->
+  <div class="usps-alert scene scene-delay-2">
+    <span class="usps-alert-icon">⏰</span>
+    <div class="usps-alert-body">
+      <strong>USPS DIM divisor changes July 12, 2026</strong> — from 166 to 139.
+      After this date, your USPS billable weight increases by ~19%. FedEx and UPS already use 139.
+      <a href="/usps-dimensional-weight-calculator/" style="color: #92400e; font-weight: 600; margin-left: 0.5rem;">See USPS calculator →</a>
+    </div>
+  </div>
+
+  <!-- ===== Scene 4: What DIM Weight Means ===== -->
+  <section class="scene scene-delay-3" style="padding-top: 1rem;">
+    <div class="section-header">
+      <span class="section-header-label">Why This Matters</span>
+      <h2 class="section-header-title">Your box is mostly air — and you're paying for it</h2>
+      <p class="section-header-desc">
+        Carriers don't just weigh your package. They calculate how much space it takes up in their truck or plane.
+      </p>
+    </div>
+
+    <div class="edu-cards">
+      <div class="edu-card">
+        <span class="edu-card-icon">📐</span>
+        <h4>What is dimensional weight?</h4>
+        <p>DIM weight = (L × W × H) ÷ divisor. It's a pricing weight based on package size, not mass. Carriers charge whichever is higher — DIM weight or actual scale weight.</p>
+      </div>
+      <div class="edu-card">
+        <span class="edu-card-icon">🚛</span>
+        <h4>Why carriers use it</h4>
+        <p>Trucks and planes run out of <strong>space</strong> before they run out of weight capacity. A box full of pillows costs the carrier the same cargo hold space as a box full of books.</p>
+      </div>
+      <div class="edu-card">
+        <span class="edu-card-icon">💸</span>
+        <h4>Why ecommerce stores lose money</h4>
+        <p>Your checkout estimates shipping using product weight. But the carrier invoice uses DIM weight — which can be 2–3× higher. The difference comes out of your margin.</p>
+      </div>
+    </div>
   </section>
 
-  <section id="disclaimer" class="grid gap-3 pt-6 border-t border-[#e2e8f0]">
-    <h2 class="text-[24px] font-bold tracking-tight text-[#0f172a]">Disclaimer</h2>
-    <p class="text-[14px] text-[#64748b] leading-relaxed max-w-3xl">
-      This calculator provides estimates for planning and comparison only. Carrier
-      rules, rounding, surcharges, and contract rates can change. Always confirm
-      the final billable weight with your carrier before purchasing postage.
-    </p>
+  <!-- ===== Scene 5: Real Scenario + Loss ===== -->
+  <section class="scene scene-delay-3" style="padding-top: 2rem;">
+    <div class="section-header">
+      <span class="section-header-label">Real-World Example</span>
+      <h2 class="section-header-title">What happens when you don't check DIM weight</h2>
+    </div>
+
+    <div class="card-flat" style="padding: 2rem; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: center;">
+        <div>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 0.75rem;">A typical ecommerce order:</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+            <span class="badge badge-neutral">🎒 Backpack 1 lb</span>
+            <span class="badge badge-neutral">☕ Mug 2.3 lb</span>
+            <span class="badge badge-neutral">📓 Notebook 0.6 lb</span>
+          </div>
+          <p style="font-size: 13px; color: #64748b;">Packed in a 20×12×10" box, shipped Denver → New York</p>
+        </div>
+        <div style="text-align: center;">
+          <div style="display: flex; justify-content: center; gap: 2rem; align-items: center;">
+            <div>
+              <p style="font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em;">Checkout quote</p>
+              <p style="font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: #16a34a;">$23.63</p>
+              <p style="font-size: 11px; color: #94a3b8;">Based on actual weight</p>
+            </div>
+            <span style="font-size: 20px; color: #94a3b8;">→</span>
+            <div>
+              <p style="font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em;">Carrier invoice</p>
+              <p style="font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: #dc2626;">$53.28</p>
+              <p style="font-size: 11px; color: #dc2626;">Based on DIM weight</p>
+            </div>
+          </div>
+          <p style="margin-top: 0.75rem; font-size: 13px; color: #991b1b; font-weight: 600;">
+            Loss per order: $29.65
+          </p>
+        </div>
+        <div style="background: #fef2f2; border-radius: 10px; padding: 1.25rem; text-align: center;">
+          <p style="font-size: 11px; color: #991b1b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Annual impact at scale</p>
+          <p style="font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 800; color: #dc2626;">$89,000</p>
+          <p style="font-size: 12px; color: #991b1b;">lost on 3,000 orders/year</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding-top: 1.5rem;">
+      <div class="section-header">
+        <span class="section-header-label">Your Numbers</span>
+        <h2 class="section-header-title">What DIM weight is costing you</h2>
+        <p class="section-header-desc">
+          Use the sliders in the calculator above to adjust your box dimensions. The loss calculator updates in real time — see exactly how much dimensional weight overcharges add up over a year.
+        </p>
+      </div>
+    </div>
   </section>
+
+  <!-- ===== Scene 6: Action Cards ===== -->
+  <section class="scene scene-delay-4" style="padding-top: 1rem;">
+    <div class="section-header">
+      <span class="section-header-label">What To Do Next</span>
+      <h2 class="section-header-title">Stop overpaying today</h2>
+      <p class="section-header-desc">
+        Three immediate actions that can reduce your dimensional weight charges — starting with your next shipment.
+      </p>
+    </div>
+
+    <div class="action-cards">
+      <div class="action-card">
+        <div class="action-card-icon">📏</div>
+        <h4>Use a smaller box</h4>
+        <p>If your DIM weight exceeds actual weight, try a box with tighter dimensions. Even 1 inch less on each side can drop your billable weight significantly.</p>
+        <span class="action-card-link">Use this calculator to test different box sizes ↑</span>
+      </div>
+      <div class="action-card">
+        <div class="action-card-icon">🔄</div>
+        <h4>Compare carriers every time</h4>
+        <p>FedEx and UPS use divisor 139. USPS currently uses 166 (changing to 139 July 12). For bulky items, USPS may be cheaper — until the change takes effect.</p>
+        <a href="/all-carriers/" class="action-card-link">Compare all carriers →</a>
+      </div>
+      <div class="action-card">
+        <div class="action-card-icon">📋</div>
+        <h4>Calculate before you quote</h4>
+        <p>Never estimate shipping at checkout based on product weight alone. Run your box dimensions through this calculator first — then build the real cost into your pricing.</p>
+        <a href="#calculator" class="action-card-link">Back to calculator ↑</a>
+      </div>
+      <div class="action-card">
+        <div class="action-card-icon">📬</div>
+        <h4>Get USPS change alerts</h4>
+        <p>The July 12 DIM divisor change from 166 to 139 will affect millions of shipments. Don't get caught by surprise on your next carrier invoice.</p>
+        <span class="action-card-link">Subscribe for updates ↓</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Scene 7: Related Tools ===== -->
+  <section class="scene scene-delay-4" style="padding-top: 1rem;">
+    <div class="section-header">
+      <span class="section-header-label">More Shipping Tools</span>
+      <h2 class="section-header-title">Everything you need to ship smarter</h2>
+    </div>
+
+    <div class="related-tools">
+      <a href="/fedex-dimensional-weight-calculator/" class="related-tool-card">
+        <span class="related-tool-icon">📦</span>
+        <div>
+          <span class="related-tool-name">FedEx DIM Calculator</span>
+          <span class="related-tool-desc">Divisor 139 · US & International</span>
+        </div>
+      </a>
+      <a href="/ups-dimensional-weight-calculator/" class="related-tool-card">
+        <span class="related-tool-icon">📦</span>
+        <div>
+          <span class="related-tool-name">UPS DIM Calculator</span>
+          <span class="related-tool-desc">Divisor 139 · Daily Rates</span>
+        </div>
+      </a>
+      <a href="/usps-dimensional-weight-calculator/" class="related-tool-card">
+        <span class="related-tool-icon">📫</span>
+        <div>
+          <span class="related-tool-name">USPS DIM Calculator</span>
+          <span class="related-tool-desc">Divisor 166 → 139 Jul 12</span>
+        </div>
+      </a>
+      <a href="/dhl-volumetric-weight-calculator/" class="related-tool-card">
+        <span class="related-tool-icon">🌐</span>
+        <div>
+          <span class="related-tool-name">DHL Volumetric Calculator</span>
+          <span class="related-tool-desc">Divisor 5000 · cm³/kg · Express</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Formula & Sources ===== -->
+  <section id="sources" class="scene" style="padding-top: 2rem;">
+    <FormulaSourceNote formula={fedexFormula} />
+  </section>
+
+  <!-- ===== Disclaimer ===== -->
+  <section id="disclaimer" class="scene" style="padding-top: 1rem;">
+    <div class="card-flat" style="padding: 1.25rem; background: #f8fafc;">
+      <p style="font-size: 12px; color: #64748b; line-height: 1.6;">
+        <strong>Disclaimer:</strong> This calculator provides estimates for planning and comparison only.
+        Carrier rules, rounding, surcharges, and contract rates can change. Always confirm the final
+        billable weight with your carrier before purchasing postage.
+      </p>
+    </div>
+  </section>
+
 </ToolLayout>
