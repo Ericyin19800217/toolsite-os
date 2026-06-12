@@ -44,6 +44,32 @@ function CarrierBadge({ carrier, active }: { carrier: string; active: boolean })
   );
 }
 
+function getEffectiveDivisor(
+  formula: ReturnType<typeof getFormulaByCarrier>
+): { divisor: number; isPending: boolean; daysUntil: number } {
+  if (formula.effectiveDate && formula.newDivisor) {
+    const now = new Date();
+    const effective = new Date(formula.effectiveDate + "T00:00:00");
+    if (now >= effective) {
+      return { divisor: formula.newDivisor, isPending: false, daysUntil: 0 };
+    }
+    const daysUntil = Math.ceil(
+      (effective.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    return { divisor: formula.divisor, isPending: true, daysUntil };
+  }
+  return { divisor: formula.divisor, isPending: false, daysUntil: 0 };
+}
+
+function Plural({ n, word }: { n: number; word: string }) {
+  return (
+    <>
+      {n} {word}
+      {n !== 1 ? "s" : ""}
+    </>
+  );
+}
+
 export function DimensionalWeightCalculator({
   defaultCarrier
 }: DimensionalWeightCalculatorProps) {
@@ -56,16 +82,20 @@ export function DimensionalWeightCalculator({
   const isCustomCarrier = formState.carrier === "custom";
   const dimensionUnit = selectedFormula.unitSystem === "metric" ? "cm" : "in";
   const weightUnit = selectedFormula.unitSystem === "metric" ? "kg" : "lb";
+
+  const { divisor: effectiveDivisor, isPending, daysUntil } =
+    getEffectiveDivisor(selectedFormula);
+
   const divisorText = isCustomCarrier
     ? `DIVISOR ${formState.customDivisor || "—"}`
-    : `DIVISOR ${selectedFormula.divisor}`;
+    : `DIVISOR ${effectiveDivisor}${isPending ? ` (→ ${selectedFormula.newDivisor} on Jul 12)` : ""}`;
 
   const result = useMemo(() => {
     try {
       const formula = getFormulaByCarrier(formState.carrier);
       const divisor = isCustomCarrier
         ? parsePositiveNumber(formState.customDivisor, "DIM divisor")
-        : formula.divisor;
+        : effectiveDivisor;
 
       return {
         status: "valid" as const,
@@ -202,6 +232,22 @@ export function DimensionalWeightCalculator({
               {selectedFormula.confidence}
             </span>
           </div>
+
+          {/* USPS countdown */}
+          {isPending && (
+            <div className="flex items-center gap-3 bg-[#f59e0b]/5 border border-[#f59e0b]/20 px-4 py-3">
+              <span className="text-lg" aria-hidden="true">&#9200;</span>
+              <div>
+                <p className="text-xs font-semibold text-[#fbbf24] tracking-wide uppercase">
+                  Divisor changing in <Plural n={daysUntil} word="day" />
+                </p>
+                <p className="text-[11px] text-[#8899b4] mt-0.5">
+                  USPS DIM divisor changes from {selectedFormula.divisor} to {selectedFormula.newDivisor} on July 12, 2026.
+                  This calculator auto-switches on that date.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Dimensions */}
           <div className="grid gap-5">

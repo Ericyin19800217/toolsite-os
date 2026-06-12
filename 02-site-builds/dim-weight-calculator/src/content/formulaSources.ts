@@ -14,6 +14,10 @@ export interface CarrierFormula {
   sourceDate?: string;
   confidence: FormulaConfidence;
   notes: string;
+  /** Date when a new divisor takes effect (YYYY-MM-DD). Only for carriers with pending changes. */
+  effectiveDate?: string;
+  /** The divisor that takes effect on effectiveDate. */
+  newDivisor?: number;
 }
 
 export const carrierFormulas: CarrierFormula[] = [
@@ -51,14 +55,16 @@ export const carrierFormulas: CarrierFormula[] = [
     label: "USPS",
     serviceScope: "Priority Mail, Priority Mail Express, Ground Advantage, Parcel Select — packages over 1 cubic foot",
     unitSystem: "imperial",
-    divisor: 139,
-    formulaLabel: "Length x Width x Height / 139",
+    divisor: 166,
+    formulaLabel: "Length x Width x Height / 166",
     roundingNote: "USPS rounds every fractional inch up to the next whole inch (e.g. 12.2″ → 13″) before calculating DIM weight.",
     sourceUrl: "https://pe.usps.com/dmmAdvisory/Show?dmmAdvisory=DMMAdvisory051226.html&year=2026",
-    sourceDate: "USPS DMM Advisory May 12, 2026; Docket CP2026-8; effective July 12, 2026",
+    sourceDate: "USPS DMM Advisory May 12, 2026; Docket CP2026-8",
     confidence: "medium",
     notes:
-      "USPS officially announced DIM divisor change from 166 to 139 effective July 12, 2026 (PRC Docket CP2026-8, approved May 27, 2026). Applies to packages over 1 cubic foot (1,728 in³). Flat Rate boxes exempt. Prior to July 12, divisor is 166."
+      "Current USPS DIM divisor is 166. On July 12, 2026, divisor changes to 139 per PRC Docket CP2026-8. Applies to packages over 1 cubic foot (1,728 in³). Flat Rate boxes exempt.",
+    effectiveDate: "2026-07-12",
+    newDivisor: 139,
   },
   {
     carrier: "dhl",
