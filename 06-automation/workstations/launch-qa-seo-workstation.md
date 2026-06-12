@@ -215,6 +215,21 @@ S2 输出要求新增：
 └─────────────────────────────────────────────────┘
 ```
 
+**⚠️ HTML 标记验证的前提条件**：Google 会抓取**根路径** `https://你的域名.com/` 来读取验证 meta 标签。如果根路径返回 404，验证会失败。S2 建站时必须确保 `src/pages/index.astro` 存在（即使只是导航页），不能只有子路径页面。
+
+### ⚠️ 环境变量必须手动设置
+
+Vercel CLI 部署不会自动读取 `astro.config.mjs` 中的环境变量默认值。部署后必须手动设置 `SITE_URL`：
+
+```bash
+vercel env add SITE_URL production
+# 输入：https://你的域名.vercel.app（或真实域名）
+```
+
+否则 sitemap 会生成 `http://localhost:4321` 的 URL，导致 Search Console 报错。
+
+---
+
 ## 4. 实现架构
 
 ### 4.1 S2 → S3 交接数据

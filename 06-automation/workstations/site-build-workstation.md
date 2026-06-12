@@ -59,6 +59,8 @@ dim-weight-calculator 案例：
 
 建站工作站必须识别 MVP Brief 中是否存在类似的**品牌/变体参数化机会**，并在页面生成前规划多页面结构。
 
+无论是否有变体页面，**必须包含根路径页面 `src/pages/index.astro`**——这是 Search Console HTML 标记验证的前提条件（Google 抓取根路径读取 meta 标签）。
+
 ## 3. 项目骨架标准
 
 ### 3.1 目录结构（从 MVP 反推）
