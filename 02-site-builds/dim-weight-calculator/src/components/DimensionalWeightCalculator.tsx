@@ -30,6 +30,20 @@ const defaultFormState: CalculatorFormState = {
   carrier: "fedex"
 };
 
+function CarrierBadge({ carrier, active }: { carrier: string; active: boolean }) {
+  return (
+    <span
+      className={`text-[11px] font-semibold tracking-widest uppercase px-3 py-1 ${
+        active
+          ? "badge-amber"
+          : "badge-muted"
+      }`}
+    >
+      {carrier}
+    </span>
+  );
+}
+
 export function DimensionalWeightCalculator({
   defaultCarrier
 }: DimensionalWeightCalculatorProps) {
@@ -43,8 +57,8 @@ export function DimensionalWeightCalculator({
   const dimensionUnit = selectedFormula.unitSystem === "metric" ? "cm" : "in";
   const weightUnit = selectedFormula.unitSystem === "metric" ? "kg" : "lb";
   const divisorText = isCustomCarrier
-    ? `custom divisor ${formState.customDivisor || "not set"}`
-    : `divisor ${selectedFormula.divisor}`;
+    ? `DIVISOR ${formState.customDivisor || "—"}`
+    : `DIVISOR ${selectedFormula.divisor}`;
 
   const result = useMemo(() => {
     try {
@@ -76,29 +90,31 @@ export function DimensionalWeightCalculator({
       };
     }
   }, [formState, isCustomCarrier]);
+
   const weightComparison =
     result.status === "valid" && result.value
       ? {
           dimensionalPercent: `${Math.max(
-            10,
+            5,
             Math.round(
               (result.value.dimensionalWeight / result.value.billableWeight) *
                 100
             )
           )}%`,
           actualPercent: `${Math.max(
-            10,
+            5,
             Math.round(
               (result.value.actualWeight / result.value.billableWeight) * 100
             )
           )}%`
         }
       : null;
+
   const billableBasis =
     result.status === "valid" && result.value
       ? result.value.dimensionalWeight >= result.value.actualWeight
-        ? "Dimensional weight is higher, so it drives the billable estimate."
-        : "Actual weight is higher, so it drives the billable estimate."
+        ? "DIM weight exceeds actual — volumetric pricing applies"
+        : "Actual weight exceeds DIM — scale weight pricing applies"
       : "";
 
   function updateField(field: keyof CalculatorFormState, value: string): void {
@@ -111,260 +127,309 @@ export function DimensionalWeightCalculator({
   return (
     <section
       id="calculator"
-      className="grid overflow-hidden rounded-lg border border-slate-300 bg-white shadow-[0_6px_8px_rgba(15,23,42,0.06)] md:grid-cols-[minmax(0,1fr)_minmax(320px,400px)]"
+      className="card-shipping"
     >
-      <div className="grid gap-3 border-b border-slate-200 bg-slate-50 p-4 sm:p-5 md:col-span-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+      {/* Header bar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1e3048] px-5 py-4">
         <div>
-          <p className="text-sm font-semibold text-slate-950">
-            Calculate billable weight
+          <p className="display-font text-2xl tracking-wider text-[#edf0f5]">
+            BILLABLE WEIGHT
           </p>
-          <p className="mt-1 text-sm leading-6 text-slate-600">
-            Enter package size and actual weight. The result updates instantly.
+          <p className="mt-0.5 text-xs font-medium tracking-widest uppercase text-[#566584]">
+            {selectedFormula.label} &middot; {divisorText}
           </p>
         </div>
-        <div className="w-fit rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800">
-          {selectedFormula.label} · {divisorText}
+        <div className="flex flex-wrap gap-1.5">
+          {carrierFormulas.map((f) => (
+            <button
+              key={f.carrier}
+              type="button"
+              onClick={() => updateField("carrier", f.carrier)}
+            >
+              <CarrierBadge
+                carrier={f.label}
+                active={formState.carrier === f.carrier}
+              />
+            </button>
+          ))}
         </div>
       </div>
 
+      {/* Mobile result preview */}
       {result.status === "valid" && result.value ? (
-        <div className="m-4 rounded-md border border-amber-300 bg-amber-50 p-3 md:hidden">
-          <p className="text-xs font-medium text-amber-900">
-            Current billable estimate
+        <div className="border-b border-[#1e3048] bg-[#0d1524] px-5 py-4 md:hidden">
+          <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#566584] mb-2">
+            Billable Estimate
           </p>
-          <p className="mt-1 text-2xl font-semibold text-slate-950">
-            {result.value.billableWeight} {result.value.unitLabel}
+          <p className="font-mono text-4xl font-semibold text-[#f59e0b] tracking-tight">
+            {result.value.billableWeight}
+            <span className="text-lg text-[#8899b4] ml-1">{result.value.unitLabel}</span>
           </p>
         </div>
       ) : null}
 
-      <form
-        className="grid gap-5 p-4 sm:p-5"
-        onSubmit={(event) => event.preventDefault()}
-      >
-        <label className="grid gap-2 text-sm font-medium text-slate-800">
-          Carrier
-          <select
-            className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
-            value={formState.carrier}
-            onChange={(event) =>
-              updateField("carrier", event.target.value as CarrierId)
-            }
-          >
-            {carrierFormulas.map((formula) => (
-              <option key={formula.carrier} value={formula.carrier}>
-                {formula.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p className="rounded-md bg-slate-50 px-3 py-2 text-sm leading-6 text-slate-700">
-          {selectedFormula.label} preset: {selectedFormula.serviceScope},{" "}
-          {divisorText}, {selectedFormula.confidence} confidence.
-        </p>
-
-        <div className="grid gap-3 border-t border-slate-200 pt-4">
-          <p className="text-sm font-semibold text-slate-950">
-            Package dimensions
-          </p>
-          <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
-          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
-            Length ({dimensionUnit})
-            <input
-              className="w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
-              inputMode="decimal"
-              min="0.01"
-              step="any"
-              type="number"
-              value={formState.length}
-              onChange={(event) => updateField("length", event.target.value)}
-            />
-          </label>
-
-          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
-            Width ({dimensionUnit})
-            <input
-              className="w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
-              inputMode="decimal"
-              min="0.01"
-              step="any"
-              type="number"
-              value={formState.width}
-              onChange={(event) => updateField("width", event.target.value)}
-            />
-          </label>
-
-          <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-800">
-            Height ({dimensionUnit})
-            <input
-              className="w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
-              inputMode="decimal"
-              min="0.01"
-              step="any"
-              type="number"
-              value={formState.height}
-              onChange={(event) => updateField("height", event.target.value)}
-            />
-          </label>
-          </div>
-        </div>
-
-        <div className="grid gap-3 border-t border-slate-200 pt-4">
-          <p className="text-sm font-semibold text-slate-950">
-            Weight and divisor
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-          <label className="grid gap-2 text-sm font-medium text-slate-800">
-            Actual weight ({weightUnit})
-            <input
-              className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
-              inputMode="decimal"
-              min="0.01"
-              step="any"
-              type="number"
-              value={formState.actualWeight}
-              onChange={(event) =>
-                updateField("actualWeight", event.target.value)
-              }
-            />
-          </label>
-
-          <label className="grid gap-2 text-sm font-medium text-slate-800">
-            DIM divisor
-            <input
-              className="rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none hover:border-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500"
-              disabled={!isCustomCarrier}
-              inputMode="decimal"
-              min="0.01"
-              step="any"
-              type="number"
-              value={
-                isCustomCarrier
-                  ? formState.customDivisor
-                  : String(selectedFormula.divisor)
-              }
-              onChange={(event) =>
-                updateField("customDivisor", event.target.value)
-              }
-            />
-          </label>
-          </div>
-        </div>
-      </form>
-
-      <aside className="m-4 mt-0 rounded-lg border border-slate-200 bg-white p-5 text-slate-950 md:m-5 md:ml-0">
-        <div
-          aria-label="Calculation result"
-          aria-live="polite"
-          role="status"
+      <div className="grid md:grid-cols-[1fr_420px]">
+        {/* Form */}
+        <form
+          className="grid gap-6 p-5"
+          onSubmit={(event) => event.preventDefault()}
         >
-        {result.status === "valid" && result.value ? (
+          {/* Carrier select */}
+          <label className="grid gap-2">
+            <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#566584]">
+              Carrier
+            </span>
+            <select
+              className="select-logistics px-4 py-2.5 text-sm font-medium"
+              value={formState.carrier}
+              onChange={(event) =>
+                updateField("carrier", event.target.value as CarrierId)
+              }
+            >
+              {carrierFormulas.map((formula) => (
+                <option key={formula.carrier} value={formula.carrier}>
+                  {formula.label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {/* Carrier info strip */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-[#566584] border-l-2 border-[#1e3048] pl-3 py-1">
+            <span>{selectedFormula.serviceScope}</span>
+            <span className="font-mono text-[#8899b4]">{divisorText}</span>
+            <span className="badge-muted text-[10px] px-2 py-0.5 tracking-wider">
+              {selectedFormula.confidence}
+            </span>
+          </div>
+
+          {/* Dimensions */}
           <div className="grid gap-5">
-            <div className="grid gap-3">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm font-medium text-slate-500">
-                  Billable weight
-                </p>
-                <span className="rounded-md bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-800 ring-1 ring-teal-200">
-                  Estimate
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-[#1e3048]" aria-hidden="true" />
+              <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#566584]">
+                Package Dimensions
+              </span>
+              <div className="h-px flex-1 bg-[#1e3048]" aria-hidden="true" />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              {(["length", "width", "height"] as const).map((field) => (
+                <label key={field} className="grid gap-2">
+                  <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#566584]">
+                    {field}
+                    <span className="text-[#566584] font-normal ml-1">
+                      ({dimensionUnit})
+                    </span>
+                  </span>
+                  <input
+                    className="input-logistics px-4 py-2.5 text-sm font-mono font-medium"
+                    inputMode="decimal"
+                    min="0.01"
+                    step="any"
+                    type="number"
+                    value={formState[field]}
+                    onChange={(event) => updateField(field, event.target.value)}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Weight & Divisor */}
+          <div className="grid gap-5">
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-[#1e3048]" aria-hidden="true" />
+              <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#566584]">
+                Weight &amp; Divisor
+              </span>
+              <div className="h-px flex-1 bg-[#1e3048]" aria-hidden="true" />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="grid gap-2">
+                <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#566584]">
+                  Actual Weight
+                  <span className="text-[#566584] font-normal ml-1">
+                    ({weightUnit})
+                  </span>
                 </span>
-              </div>
-              <p className="text-5xl font-semibold tracking-normal text-slate-950">
-                {result.value.billableWeight} {result.value.unitLabel}
-              </p>
-              <p className="max-w-sm text-sm leading-6 text-slate-600">
-                {billableBasis}
-              </p>
-            </div>
+                <input
+                  className="input-logistics px-4 py-2.5 text-sm font-mono font-medium"
+                  inputMode="decimal"
+                  min="0.01"
+                  step="any"
+                  type="number"
+                  value={formState.actualWeight}
+                  onChange={(event) =>
+                    updateField("actualWeight", event.target.value)
+                  }
+                />
+              </label>
 
-            <div className="grid gap-4 rounded-md bg-slate-50 p-4">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm font-semibold text-slate-950">
-                  Weight comparison
-                </p>
-                <p className="text-xs font-medium text-slate-500">
-                  {formState.length || "0"} x {formState.width || "0"} x{" "}
-                  {formState.height || "0"} {dimensionUnit}
-                </p>
-              </div>
-              {weightComparison ? (
-                <div className="grid gap-3 text-sm">
-                  <div className="grid gap-1">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-500">Dimensional</span>
-                      <span className="font-medium">
-                        {result.value.dimensionalWeight} {result.value.unitLabel}
-                      </span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-                      <div
-                        className="h-full rounded-full bg-amber-500"
-                        style={{ width: weightComparison.dimensionalPercent }}
-                      />
-                    </div>
-                  </div>
-                  <div className="grid gap-1">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-500">Actual</span>
-                      <span className="font-medium">
-                        {result.value.actualWeight} {result.value.unitLabel}
-                      </span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-                      <div
-                        className="h-full rounded-full bg-teal-500"
-                        style={{ width: weightComparison.actualPercent }}
-                      />
-                    </div>
-                  </div>
+              <label className="grid gap-2">
+                <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#566584]">
+                  DIM Divisor
+                </span>
+                <input
+                  className="input-logistics px-4 py-2.5 text-sm font-mono font-medium disabled:opacity-30 disabled:cursor-not-allowed"
+                  disabled={!isCustomCarrier}
+                  inputMode="decimal"
+                  min="0.01"
+                  step="any"
+                  type="number"
+                  value={
+                    isCustomCarrier
+                      ? formState.customDivisor
+                      : String(selectedFormula.divisor)
+                  }
+                  onChange={(event) =>
+                    updateField("customDivisor", event.target.value)
+                  }
+                />
+              </label>
+            </div>
+          </div>
+        </form>
+
+        {/* Result Panel */}
+        <aside className="border-l border-[#1e3048] bg-[#0d1524] p-6 flex flex-col">
+          <div
+            aria-label="Calculation result"
+            aria-live="polite"
+            role="status"
+          >
+            {result.status === "valid" && result.value ? (
+              <div className="grid gap-6">
+                {/* Big billable number */}
+                <div className="text-center">
+                  <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#566584] mb-3">
+                    Billable Weight
+                  </p>
+                  <p className="font-mono text-6xl font-semibold text-[#f59e0b] tracking-tight leading-none">
+                    {result.value.billableWeight}
+                  </p>
+                  <p className="mt-2 text-sm font-medium tracking-widest uppercase text-[#8899b4]">
+                    {result.value.unitLabel}
+                  </p>
+                  <p className="mt-3 text-xs leading-relaxed text-[#566584] max-w-xs mx-auto">
+                    {billableBasis}
+                  </p>
                 </div>
-              ) : null}
-            </div>
 
-            <dl className="grid gap-3 text-sm">
-              <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
-                <dt className="text-slate-500">Dimensional weight</dt>
-                <dd className="font-medium">
-                  {result.value.dimensionalWeight} {result.value.unitLabel}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
-                <dt className="text-slate-500">Actual weight</dt>
-                <dd className="font-medium">
-                  {result.value.actualWeight} {result.value.unitLabel}
-                </dd>
-              </div>
-              <div className="grid gap-1 border-t border-slate-200 pt-3">
-                <dt className="text-slate-500">Formula</dt>
-                <dd className="font-medium">{result.formula.formulaLabel}</dd>
-              </div>
-              <div className="grid gap-1 border-t border-slate-200 pt-3">
-                <dt className="text-slate-500">Source confidence</dt>
-                <dd className="font-medium">
-                  {result.formula.confidence}
-                  {result.formula.sourceDate
-                    ? ` · ${result.formula.sourceDate}`
-                    : ""}
-                </dd>
-              </div>
-            </dl>
+                {/* Weight comparison bars */}
+                {weightComparison ? (
+                  <div className="grid gap-4 bg-[#0a101c] p-4">
+                    <div className="flex items-center justify-between gap-4 text-[10px] tracking-[0.15em] uppercase">
+                      <span className="font-semibold text-[#8899b4]">
+                        Weight Comparison
+                      </span>
+                      <span className="text-[#566584] font-mono">
+                        {formState.length || "0"}&times;{formState.width || "0"}&times;{formState.height || "0"} {dimensionUnit}
+                      </span>
+                    </div>
 
-            <p className="text-sm leading-6 text-slate-600">
-              {result.formula.notes}
-            </p>
+                    {/* DIM bar */}
+                    <div className="grid gap-1.5">
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <span className="text-[#8899b4] font-medium">DIM</span>
+                        <span className="font-mono font-semibold text-[#f59e0b] tabular-nums">
+                          {result.value.dimensionalWeight} {result.value.unitLabel}
+                        </span>
+                      </div>
+                      <div className="h-2 progress-track overflow-hidden">
+                        <div
+                          className="h-full progress-amber transition-all duration-500"
+                          style={{ width: weightComparison.dimensionalPercent }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Actual bar */}
+                    <div className="grid gap-1.5">
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <span className="text-[#8899b4] font-medium">Actual</span>
+                        <span className="font-mono font-semibold text-[#14b8a6] tabular-nums">
+                          {result.value.actualWeight} {result.value.unitLabel}
+                        </span>
+                      </div>
+                      <div className="h-2 progress-track overflow-hidden">
+                        <div
+                          className="h-full progress-teal transition-all duration-500"
+                          style={{ width: weightComparison.actualPercent }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Detail rows */}
+                <dl className="grid gap-0 border-t border-[#1e3048]">
+                  {[
+                    { label: "Dimensional Weight", value: result.value.dimensionalWeight },
+                    { label: "Actual Weight", value: result.value.actualWeight },
+                  ].map((row) => (
+                    <div key={row.label} className="flex items-center justify-between gap-4 py-3 border-b border-[#1e3048] text-xs">
+                      <dt className="text-[#566584] font-medium tracking-wide">{row.label}</dt>
+                      <dd className="font-mono font-semibold text-[#edf0f5] tabular-nums">
+                        {row.value} {result.value!.unitLabel}
+                      </dd>
+                    </div>
+                  ))}
+                  <div className="flex items-center justify-between gap-4 py-3 border-b border-[#1e3048] text-xs">
+                    <dt className="text-[#566584] font-medium tracking-wide">Formula</dt>
+                    <dd className="font-mono font-semibold text-[#8899b4]">
+                      {result.formula.formulaLabel}
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 py-3 text-xs">
+                    <dt className="text-[#566584] font-medium tracking-wide">Confidence</dt>
+                    <dd className="flex items-center gap-2">
+                      <span className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-0.5 ${
+                        result.formula.confidence === "low" ? "badge-muted" :
+                        result.formula.confidence === "medium" ? "badge-teal" :
+                        "badge-amber"
+                      }`}>
+                        {result.formula.confidence}
+                      </span>
+                      {result.formula.sourceDate ? (
+                        <span className="text-[#566584] font-mono text-[10px]">
+                          {result.formula.sourceDate}
+                        </span>
+                      ) : null}
+                    </dd>
+                  </div>
+                </dl>
+
+                {result.formula.notes ? (
+                  <p className="text-[11px] leading-relaxed text-[#566584] border-l-2 border-[#1e3048] pl-3">
+                    {result.formula.notes}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <div className="grid min-h-48 place-items-center text-center">
+                <div>
+                  <p className="display-font text-3xl tracking-wider text-[#566584]">
+                    CHECK INPUTS
+                  </p>
+                  <p className="mt-2 text-xs text-[#566584] tracking-wide uppercase">
+                    Enter positive numbers for all fields
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="grid min-h-48 place-items-center text-center">
-            <div>
-              <p className="text-2xl font-semibold">Check inputs</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Enter positive numbers for package size, weight, and divisor.
-              </p>
+
+          {/* Bottom tag */}
+          <div className="mt-auto pt-6">
+            <div className="flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase text-[#566584]">
+              <span className="h-2 w-2 bg-[#f59e0b]" aria-hidden="true" />
+              Estimate only &mdash; not a carrier quote
             </div>
           </div>
-        )}
-        </div>
-      </aside>
+        </aside>
+      </div>
     </section>
   );
 }

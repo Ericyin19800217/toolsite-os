@@ -20,30 +20,42 @@ const { title, description } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <header class="border-b border-slate-200 bg-white">
+    <!-- Top barcode decoration -->
+    <div class="h-1 w-full barcode-line" aria-hidden="true"></div>
+
+    <header class="border-b border-[#1e3048] bg-[#0d1320]/95 backdrop-blur sticky top-0 z-50">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <a
-          class="flex items-center gap-2 font-semibold text-slate-950"
+          class="flex items-center gap-3 group"
           href="/dimensional-weight-calculator/"
         >
-          <span class="grid size-7 place-items-center rounded-md bg-slate-950 text-sm font-bold text-white">
+          <span class="grid size-8 place-items-center bg-[#f59e0b] text-sm font-bold text-[#0f1723] tracking-tight font-mono">
             DW
           </span>
-          Shipping calculator
+          <span class="text-sm font-semibold text-[#edf0f5] tracking-wide uppercase group-hover:text-[#fbbf24] transition-colors">
+            Shipping Calc
+          </span>
         </a>
         <nav
           aria-label="Page sections"
-          class="flex flex-wrap items-center gap-1 text-sm font-medium text-slate-600"
+          class="flex flex-wrap items-center gap-1 text-xs font-medium tracking-widest uppercase text-[#566584]"
         >
-          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#calculator">Calculator</a>
-          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#formula">Formula</a>
-          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#sources">Sources</a>
-          <a class="rounded-md px-3 py-1.5 hover:bg-slate-100 hover:text-slate-950" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
+          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#calculator">Calculator</a>
+          <span class="text-[#1e3048]" aria-hidden="true">/</span>
+          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#formula">Formula</a>
+          <span class="text-[#1e3048]" aria-hidden="true">/</span>
+          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#sources">Sources</a>
+          <span class="text-[#1e3048]" aria-hidden="true">/</span>
+          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
         </nav>
       </div>
     </header>
-    <main class="mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:px-8">
+
+    <main class="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:px-8">
       <slot />
     </main>
+
+    <!-- Bottom barcode decoration -->
+    <div class="h-1 w-full barcode-line mt-16" aria-hidden="true"></div>
   </body>
 </html>

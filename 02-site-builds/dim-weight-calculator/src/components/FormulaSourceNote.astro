@@ -8,96 +8,76 @@ interface Props {
 const { formula } = Astro.props;
 
 const isLow = formula.confidence === "low";
-const isMedium = formula.confidence === "medium";
+const isHigh = formula.confidence === "high";
 
-const cardBorder = isLow
-  ? "border-slate-300"
-  : isMedium
-    ? "border-teal-200"
-    : "border-teal-200";
-const cardBg = isLow
-  ? "bg-slate-50"
-  : isMedium
-    ? "bg-teal-50/60"
-    : "bg-teal-50";
-const badgeBg = isLow
-  ? "bg-slate-100"
-  : isMedium
-    ? "bg-teal-50"
-    : "bg-white";
-const badgeText = isLow
-  ? "text-slate-600"
-  : isMedium
-    ? "text-teal-800"
-    : "text-teal-900";
-const badgeRing = isLow
-  ? "ring-slate-300"
-  : isMedium
-    ? "ring-teal-300"
-    : "ring-teal-200";
-const dividerColor = isLow ? "border-slate-200" : "border-teal-200";
-
-const confidenceLabel =
-  formula.confidence === "low"
-    ? `${formula.confidence} — verify before relying`
-    : formula.confidence;
+const cardBg = isLow ? "bg-[#0d1524]/50" : isHigh ? "bg-[#0d1a1a]" : "bg-[#0d1524]";
+const accentBar = isLow ? "bg-[#334155]" : isHigh ? "bg-[#14b8a6]" : "bg-[#f59e0b]";
+const badgeClass = isLow ? "badge-muted" : isHigh ? "badge-teal" : "badge-amber";
 ---
 
 <aside
   id="sources"
-  class={`grid gap-4 rounded-lg border ${cardBorder} ${cardBg} p-5 text-sm leading-6 text-slate-800`}
+  class={`card-shipping ${cardBg}`}
 >
-  <div class="flex flex-wrap items-start justify-between gap-3">
-    <div>
-      <p class="text-base font-semibold text-slate-950">
-        Source confidence: {formula.label} preset
-      </p>
-      <p class="mt-1 text-slate-700">{formula.serviceScope}</p>
+  <!-- Accent bar -->
+  <div class={`h-0.5 w-full ${accentBar}`} aria-hidden="true"></div>
+
+  <div class="p-5 grid gap-4">
+    <!-- Header -->
+    <div class="flex flex-wrap items-start justify-between gap-3">
+      <div>
+        <p class="display-font text-xl tracking-wider text-[#edf0f5]">
+          {formula.label} &mdash; Source Data
+        </p>
+        <p class="mt-1 text-xs text-[#8899b4] leading-relaxed">{formula.serviceScope}</p>
+      </div>
+      <span class={`text-[10px] font-semibold tracking-[0.15em] uppercase px-3 py-1 ${badgeClass}`}>
+        {formula.confidence}
+      </span>
     </div>
-    <span class={`rounded-md px-3 py-1 text-sm font-semibold ${badgeBg} ${badgeText} ring-1 ${badgeRing}`}>
-      {confidenceLabel}
-    </span>
+
+    <!-- Detail grid -->
+    <dl class="grid sm:grid-cols-4 border-t border-[#1e3048]">
+      <div class="border-b border-[#1e3048] p-3 sm:border-b-0 sm:border-r border-[#1e3048]">
+        <dt class="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#566584] mb-1">
+          Formula
+        </dt>
+        <dd class="font-mono text-sm font-medium text-[#edf0f5]">{formula.formulaLabel}</dd>
+      </div>
+      <div class="border-b border-[#1e3048] p-3 sm:border-b-0 sm:border-r border-[#1e3048]">
+        <dt class="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#566584] mb-1">
+          Confidence
+        </dt>
+        <dd class="font-mono text-sm font-medium text-[#8899b4]">{formula.confidence}</dd>
+      </div>
+      <div class="border-b border-[#1e3048] p-3 sm:border-b-0 sm:border-r border-[#1e3048]">
+        <dt class="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#566584] mb-1">
+          Verified
+        </dt>
+        <dd class="font-mono text-sm text-[#8899b4]">
+          {formula.sourceDate ?? "Needs source review before launch"}
+        </dd>
+      </div>
+      <div class="p-3">
+        <dt class="text-[10px] font-semibold tracking-[0.15em] uppercase text-[#566584] mb-1">
+          Rounding
+        </dt>
+        <dd class="text-xs text-[#8899b4] leading-relaxed">{formula.roundingNote}</dd>
+      </div>
+    </dl>
+
+    {
+      formula.sourceUrl && (
+        <a
+          class="inline-flex items-center gap-2 w-fit px-4 py-2 text-xs font-semibold tracking-wider uppercase text-[#8899b4] border border-[#1e3048] hover:border-[#f59e0b] hover:text-[#f59e0b] transition-colors"
+          href={formula.sourceUrl}
+          rel="noreferrer"
+          target="_blank"
+        >
+          View Source
+          <span aria-hidden="true" class="font-mono">&rarr;</span>
+        </a>
+      )
+    }
   </div>
-
-  <dl class={`grid border-t ${dividerColor} bg-white/60 sm:grid-cols-4`}>
-    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
-      <dt class="text-xs font-medium uppercase text-slate-500">
-        Formula
-      </dt>
-      <dd class="mt-1 font-medium text-slate-950">{formula.formulaLabel}</dd>
-    </div>
-    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
-      <dt class="text-xs font-medium uppercase text-slate-500">
-        Confidence
-      </dt>
-      <dd class="mt-1 font-medium text-slate-950">{formula.confidence}</dd>
-    </div>
-    <div class={`border-b ${dividerColor} p-3 sm:border-b-0 sm:border-r`}>
-      <dt class="text-xs font-medium uppercase text-slate-500">
-        Checked
-      </dt>
-      <dd class="mt-1 font-medium text-slate-950">
-        {formula.sourceDate ?? "Needs source review before launch"}
-      </dd>
-    </div>
-    <div class="p-3">
-      <dt class="text-xs font-medium uppercase text-slate-500">
-        Caveat
-      </dt>
-      <dd class="mt-1 text-slate-700">{formula.roundingNote}</dd>
-    </div>
-  </dl>
-
-  {
-    formula.sourceUrl && (
-      <a
-        class="w-fit rounded-md border border-slate-300 px-3 py-2 font-medium text-slate-950 underline-offset-4 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500"
-        href={formula.sourceUrl}
-        rel="noreferrer"
-        target="_blank"
-      >
-        View source
-      </a>
-    )
-  }
 </aside>

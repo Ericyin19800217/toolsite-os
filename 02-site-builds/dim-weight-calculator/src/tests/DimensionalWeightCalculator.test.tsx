@@ -9,11 +9,11 @@ describe("DimensionalWeightCalculator", () => {
     render(<DimensionalWeightCalculator defaultCarrier="fedex" />);
 
     for (const label of [
-      "Length (in)",
-      "Width (in)",
-      "Height (in)",
-      "Actual weight (lb)",
-      "DIM divisor"
+      /length/i,
+      /width/i,
+      /height/i,
+      /actual weight/i,
+      /dim divisor/i,
     ]) {
       const input = screen.getByLabelText(label);
 

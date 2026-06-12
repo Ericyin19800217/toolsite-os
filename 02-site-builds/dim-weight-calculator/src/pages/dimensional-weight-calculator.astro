@@ -8,53 +8,37 @@ const fedexFormula = getFormulaByCarrier("fedex");
 ---
 
 <ToolLayout
-  title="Dimensional Weight Calculator for UPS, FedEx, USPS & DHL"
+  title="Dimensional Weight Calculator for UPS, FedEx, USPS &amp; DHL"
   description="Calculate dimensional weight and billable weight for UPS, FedEx, USPS, DHL, and custom DIM factors. Supports inches/lbs and cm/kg."
 >
-  <section class="grid gap-5 border-b border-slate-200 pb-6 md:grid-cols-[minmax(0,1fr)_340px] md:items-end">
-    <div class="grid gap-4">
-      <p class="text-sm font-semibold text-teal-700">
-        Free shipping calculator
-      </p>
-      <h1 class="max-w-3xl text-4xl font-semibold text-slate-950">
-        Dimensional Weight Calculator
-      </h1>
-      <p class="max-w-2xl text-base leading-7 text-slate-600">
-        Estimate billable weight for UPS, FedEx, USPS, DHL, or a custom DIM
-        divisor before you buy a label or quote a shipment.
-      </p>
-      <div class="flex flex-wrap gap-2 text-sm font-medium text-slate-600">
-        <span class="rounded-md bg-slate-100 px-3 py-1.5">UPS</span>
-        <span class="rounded-md bg-slate-100 px-3 py-1.5">FedEx</span>
-        <span class="rounded-md bg-slate-100 px-3 py-1.5">USPS</span>
-        <span class="rounded-md bg-slate-100 px-3 py-1.5">DHL</span>
-        <span class="rounded-md bg-slate-100 px-3 py-1.5">Custom divisor</span>
-      </div>
+  <!-- Hero -->
+  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
+    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
+      Free Shipping Calculator
+    </p>
+    <h1 class="display-font text-5xl md:text-7xl leading-none tracking-wide text-[#edf0f5] max-w-4xl">
+      Dimensional Weight
+      <span class="block text-[#f59e0b]">Calculator</span>
+    </h1>
+    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
+      Estimate billable weight for UPS, FedEx, USPS, DHL, or a custom DIM
+      divisor before you buy a label or quote a shipment.
+    </p>
+    <div class="flex flex-wrap gap-2">
+      {["UPS", "FedEx", "USPS", "DHL", "Custom"].map((c) => (
+        <span class="badge-muted text-[10px] tracking-widest font-semibold uppercase px-3 py-1">{c}</span>
+      ))}
     </div>
-
-    <dl class="grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm">
-      <div class="flex items-center justify-between gap-4">
-        <dt class="text-slate-500">Default formula</dt>
-        <dd class="font-semibold text-slate-950">FedEx / 139</dd>
-      </div>
-      <div class="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
-        <dt class="text-slate-500">Output</dt>
-        <dd class="font-semibold text-slate-950">Billable weight</dd>
-      </div>
-      <div class="flex items-center justify-between gap-4 border-t border-slate-200 pt-3">
-        <dt class="text-slate-500">Use case</dt>
-        <dd class="font-semibold text-slate-950">Label planning</dd>
-      </div>
-    </dl>
   </section>
 
   <DimensionalWeightCalculator client:visible defaultCarrier="fedex" />
 
   <FormulaSourceNote formula={fedexFormula} />
 
-  <section id="formula" class="grid gap-4 border-t border-slate-200 pt-8">
-    <h2 class="text-2xl font-semibold text-slate-950">What dimensional weight is</h2>
-    <p class="leading-7 text-slate-700">
+  <!-- Formula section -->
+  <section id="formula" class="grid gap-4 border-t border-[#1e3048] pt-8">
+    <h2 class="display-font text-3xl tracking-wide text-[#edf0f5]">What dimensional weight is</h2>
+    <p class="text-sm leading-relaxed text-[#8899b4] max-w-3xl">
       Dimensional weight, also called DIM weight or volumetric weight, is a
       pricing weight based on the amount of space a package occupies. Carriers
       compare dimensional weight with the package&apos;s actual scale weight and
@@ -62,22 +46,24 @@ const fedexFormula = getFormulaByCarrier("fedex");
     </p>
   </section>
 
-  <section class="grid gap-4 border-t border-slate-200 pt-8">
-    <h2 class="text-2xl font-semibold text-slate-950">Dimensional weight formula</h2>
-    <p class="leading-7 text-slate-700">
+  <!-- Formula details -->
+  <section class="grid gap-4 border-t border-[#1e3048] pt-8">
+    <h2 class="display-font text-3xl tracking-wide text-[#edf0f5]">Dimensional weight formula</h2>
+    <p class="text-sm leading-relaxed text-[#8899b4] max-w-3xl">
       The common imperial formula is length x width x height divided by the DIM
       divisor. For example, FedEx and UPS package estimates commonly use a 139
       divisor, while USPS estimates commonly use 166 for eligible parcels. Metric
       DHL-style volumetric estimates often use centimeters divided by 5000.
     </p>
-    <p class="rounded bg-slate-100 p-4 font-mono text-sm text-slate-900">
-      Dimensional weight = length x width x height / DIM divisor
+    <p class="font-mono text-sm text-[#f59e0b] bg-[#0d1524] border border-[#1e3048] p-4 inline-block w-fit">
+      DIM weight = L &times; W &times; H / divisor
     </p>
   </section>
 
-  <section id="disclaimer" class="grid gap-4 border-t border-slate-200 pt-8">
-    <h2 class="text-2xl font-semibold text-slate-950">Disclaimer</h2>
-    <p class="leading-7 text-slate-700">
+  <!-- Disclaimer -->
+  <section id="disclaimer" class="grid gap-4 border-t border-[#1e3048] pt-8">
+    <h2 class="display-font text-3xl tracking-wide text-[#edf0f5]">Disclaimer</h2>
+    <p class="text-sm leading-relaxed text-[#8899b4] max-w-3xl">
       This calculator is an estimate for planning and comparison. Carrier rules,
       divisors, rounding, surcharges, service types, regions, contract rates, and
       freight programs can change. Confirm the final billable weight and charge
