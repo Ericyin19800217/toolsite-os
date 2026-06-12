@@ -7,19 +7,15 @@ import { getFormulaByCarrier } from "../content/formulaSources";
 const formula = getFormulaByCarrier("ups");
 ---
 
-<ToolLayout title="UPS Dimensional Weight Calculator — Daily Rates Divisor 139" description="Estimate UPS dimensional weight and billable weight. Supports Daily Rates (divisor 139) and Retail Rates (divisor 166) via Custom mode.">
-  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
-    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
-      UPS DIM Weight Calculator
-    </p>
-    <h1 class="display-font text-5xl md:text-6xl leading-none tracking-wide text-[#edf0f5]">
-      UPS Dimensional Weight
-      <span class="block text-[#f59e0b]">Calculator</span>
+<ToolLayout title="UPS Dimensional Weight Calculator" description="Estimate UPS dimensional weight. Daily Rates use divisor 139. Retail Rates use 166 — switch via Custom mode.">
+  <section class="grid gap-6 pb-8 border-b border-dashed border-[#c4b5a2]">
+    <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">UPS &mdash; Daily &amp; Retail Rates</p>
+    <h1 class="text-4xl md:text-6xl font-light italic leading-tight text-[#2c1810]">
+      UPS Dimensional Weight<br />
+      <span class="font-normal not-italic text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Calculator</span>
     </h1>
-    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
-      Daily Rates use divisor 139. Retail Rates (UPS Store walk-in) use divisor 166 —
-      switch to Custom mode and enter 166 if you ship at retail rates.
-      Dimensions rounded to nearest whole inch, DIM weight rounded up to next whole pound.
+    <p class="max-w-2xl text-sm leading-relaxed text-[#5c4a3a] italic">
+      Daily Rates use divisor 139. Retail (UPS Store) uses 166&mdash;switch to Custom mode to enter 166.
     </p>
   </section>
   <DimensionalWeightCalculator client:visible defaultCarrier="ups" />

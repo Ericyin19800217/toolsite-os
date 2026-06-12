@@ -7,18 +7,15 @@ import { getFormulaByCarrier } from "../content/formulaSources";
 const formula = getFormulaByCarrier("fedex");
 ---
 
-<ToolLayout title="FedEx Dimensional Weight Calculator — Divisor 139" description="Estimate FedEx dimensional weight with the standard 139 DIM divisor. 2026 FedEx Service Guide verified.">
-  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
-    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
-      FedEx DIM Weight — 2026 Service Guide Verified
-    </p>
-    <h1 class="display-font text-5xl md:text-6xl leading-none tracking-wide text-[#edf0f5]">
-      FedEx Dimensional Weight
-      <span class="block text-[#f59e0b]">Calculator</span>
+<ToolLayout title="FedEx Dimensional Weight Calculator" description="Estimate FedEx dimensional weight with the standard 139 DIM divisor. 2026 FedEx Service Guide verified.">
+  <section class="grid gap-6 pb-8 border-b border-dashed border-[#c4b5a2]">
+    <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">FedEx &mdash; 2026 Service Guide</p>
+    <h1 class="text-4xl md:text-6xl font-light italic leading-tight text-[#2c1810]">
+      FedEx Dimensional Weight<br />
+      <span class="font-normal not-italic text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Calculator</span>
     </h1>
-    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
-      Standard FedEx DIM divisor is 139. Dimensions rounded to nearest whole inch,
-      DIM weight rounded up to next whole pound. Verified against 2026 FedEx Service Guide.
+    <p class="max-w-2xl text-sm leading-relaxed text-[#5c4a3a] italic">
+      Standard DIM divisor 139. Dimensions rounded to nearest whole inch, DIM weight rounded up to next whole pound.
     </p>
   </section>
   <DimensionalWeightCalculator client:visible defaultCarrier="fedex" />

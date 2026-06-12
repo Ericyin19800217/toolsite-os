@@ -1,23 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg-deep: #080c14;
-  --bg-surface: #111827;
-  --bg-elevated: #1a2332;
-  --bg-input: #0f1723;
-  --border-default: #1e3048;
-  --border-active: #f59e0b;
-  --text-primary: #edf0f5;
-  --text-secondary: #8899b4;
-  --text-muted: #566584;
-  --accent-amber: #f59e0b;
-  --accent-amber-dim: #92400e;
-  --accent-teal: #14b8a6;
-  --accent-teal-dim: #115e59;
-  --accent-red: #ef4444;
-  --stripe-opacity: 0.03;
-  color-scheme: dark;
+  --paper: #f7f3eb;
+  --paper-bright: #fffdf5;
+  --paper-dark: #ede6d7;
+  --ink: #2c1810;
+  --ink-soft: #5c4a3a;
+  --ink-faded: #9b8c7c;
+  --red-airmail: #c41e3a;
+  --red-faded: #d49595;
+  --blue-airmail: #1b3a5c;
+  --blue-faded: #7b98b0;
+  --border-form: #d4c5b2;
+  --border-dashed: #c4b5a2;
+  --stamp-green: #3d6b4f;
+  color-scheme: light;
 }
 
 html {
@@ -27,33 +25,25 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Barcode stripe texture on body */
-body::before {
+/* Paper grain texture */
+body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 3px,
-    rgba(245, 158, 11, 0.015) 3px,
-    rgba(245, 158, 11, 0.015) 4px,
-    transparent 4px,
-    transparent 7px,
-    rgba(20, 184, 166, 0.01) 7px,
-    rgba(20, 184, 166, 0.01) 8px,
-    transparent 8px,
-    transparent 12px
-  );
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 button,
@@ -62,166 +52,224 @@ select {
   font: inherit;
 }
 
-/* Monospace for numbers */
+/* Typewriter data */
 .font-mono,
 input[type="number"],
 .mono-value {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: "Courier Prime", "Courier New", monospace;
   font-variant-numeric: tabular-nums;
 }
 
-/* Display font for headings */
-.display-font {
-  font-family: "Bebas Neue", system-ui, sans-serif;
-  letter-spacing: 0.02em;
+/* Airmail border strip */
+.airmail-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--red-airmail),
+    var(--red-airmail) 8px,
+    var(--paper-bright) 8px,
+    var(--paper-bright) 16px,
+    var(--blue-airmail) 16px,
+    var(--blue-airmail) 24px,
+    var(--paper-bright) 24px,
+    var(--paper-bright) 32px
+  );
+  height: 6px;
+  width: 100%;
 }
 
-/* Scanline effect for cards */
-.card-shipping {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-default);
+/* Postmark circle stamp */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink-faded);
+  border-radius: 50%;
+  font-family: "Courier Prime", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  padding: 6px 10px;
+  transform: rotate(-3deg);
   position: relative;
-  overflow: hidden;
 }
 
-.card-shipping::after {
+.stamp::before {
   content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255, 255, 255, 0.008) 2px,
-    rgba(255, 255, 255, 0.008) 4px
-  );
+  inset: -4px;
+  border: 1px dashed var(--ink-faded);
+  border-radius: 50%;
+  opacity: 0.5;
 }
 
-/* Input styling */
-.input-logistics {
-  background: var(--bg-input);
-  border: 1px solid var(--border-default);
-  color: var(--text-primary);
-  border-radius: 0;
-  transition: border-color 0.15s, box-shadow 0.15s;
+/* Form card */
+.card-parcel {
+  background: var(--paper-bright);
+  border: 1px solid var(--border-form);
+  box-shadow: 2px 3px 0 rgba(44, 24, 16, 0.06);
+  position: relative;
 }
 
-.input-logistics:hover {
-  border-color: #2d4a6f;
+/* Dashed section divider */
+.section-divider {
+  border: none;
+  border-top: 1px dashed var(--border-dashed);
+  margin: 0;
 }
 
-.input-logistics:focus {
+/* Form label style */
+.form-label {
+  font-family: "Courier Prime", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* Typewriter input */
+.input-parcel {
+  background: var(--paper);
+  border: 1px solid var(--border-form);
+  border-radius: 2px;
+  color: var(--ink);
+  font-family: "Courier Prime", monospace;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-parcel:hover {
+  border-color: var(--ink-faded);
+}
+
+.input-parcel:focus {
   outline: none;
-  border-color: var(--accent-amber);
-  box-shadow: 0 0 0 1px var(--accent-amber), 0 0 20px rgba(245, 158, 11, 0.08);
+  border-color: var(--blue-airmail);
+  box-shadow: 0 0 0 2px rgba(27, 58, 92, 0.1);
 }
 
-.input-logistics:disabled {
-  opacity: 0.35;
+.input-parcel:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
+  background: var(--paper-dark);
 }
 
-/* Select styling */
-.select-logistics {
-  background: var(--bg-input);
-  border: 1px solid var(--border-default);
-  color: var(--text-primary);
-  border-radius: 0;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238899b4' stroke-width='1.5'/%3E%3C/svg%3E");
+/* Select */
+.select-parcel {
+  background: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235c4a3a'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  padding-right: 36px;
+  border: 1px solid var(--border-form);
+  border-radius: 2px;
+  color: var(--ink);
+  font-family: "Courier Prime", monospace;
+  font-size: 14px;
+  padding-right: 32px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.select-logistics:hover {
-  border-color: #2d4a6f;
+.select-parcel:hover {
+  border-color: var(--ink-faded);
 }
 
-.select-logistics:focus {
+.select-parcel:focus {
   outline: none;
-  border-color: var(--accent-amber);
-  box-shadow: 0 0 0 1px var(--accent-amber), 0 0 20px rgba(245, 158, 11, 0.08);
+  border-color: var(--blue-airmail);
+  box-shadow: 0 0 0 2px rgba(27, 58, 92, 0.1);
 }
 
-/* Badge styles */
-.badge-amber {
-  background: rgba(245, 158, 11, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.25);
+/* Carrier badge */
+.badge-carrier {
+  font-family: "Courier Prime", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-form);
+  background: var(--paper);
+  transition: all 0.15s;
 }
 
-.badge-teal {
-  background: rgba(20, 184, 166, 0.12);
-  color: #2dd4bf;
-  border: 1px solid rgba(20, 184, 166, 0.25);
+.badge-carrier-active {
+  background: var(--blue-airmail);
+  color: var(--paper-bright);
+  border-color: var(--blue-airmail);
 }
 
-.badge-muted {
-  background: rgba(148, 163, 184, 0.08);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-}
-
-/* Button */
-.btn-primary {
-  background: var(--accent-amber);
-  color: #0f1723;
-  font-weight: 600;
-  border: none;
-  transition: background 0.15s, box-shadow 0.15s;
-}
-
-.btn-primary:hover {
-  background: #fbbf24;
-  box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-default);
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.btn-ghost:hover {
-  border-color: var(--accent-amber);
-  color: var(--text-primary);
+/* Big result number */
+.billable-number {
+  font-family: "Courier Prime", monospace;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
 }
 
 /* Progress bar */
-.progress-amber {
-  background: var(--accent-amber);
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+.bar-track {
+  background: var(--paper-dark);
+  height: 6px;
 }
 
-.progress-teal {
-  background: var(--accent-teal);
-  box-shadow: 0 0 8px rgba(20, 184, 166, 0.25);
-}
-
-.progress-track {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* Barcode decorative element */
-.barcode-line {
+.bar-fill-dim {
+  background: var(--red-airmail);
   height: 100%;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--border-default),
-    var(--border-default) 1px,
-    transparent 1px,
-    transparent 2px,
-    var(--border-default) 2px,
-    var(--border-default) 4px,
-    transparent 4px,
-    transparent 5px,
-    var(--border-default) 5px,
-    var(--border-default) 6px,
-    transparent 6px,
-    transparent 8px
-  );
+  transition: width 0.5s;
+}
+
+.bar-fill-actual {
+  background: var(--blue-airmail);
+  height: 100%;
+  transition: width 0.5s;
+}
+
+/* Button primary */
+.btn-post {
+  background: var(--red-airmail);
+  color: var(--paper-bright);
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  transition: background 0.15s;
+}
+
+.btn-post:hover {
+  background: #a01830;
+}
+
+/* Nav link */
+.nav-link {
+  color: var(--ink-soft);
+  font-family: "Courier Prime", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+}
+
+.nav-link:hover {
+  color: var(--red-airmail);
+}
+
+/* Confidence stamp */
+.conf-stamp-high {
+  border-color: var(--stamp-green);
+  color: var(--stamp-green);
+}
+
+.conf-stamp-medium {
+  border-color: var(--blue-airmail);
+  color: var(--blue-airmail);
+}
+
+.conf-stamp-low {
+  border-color: var(--ink-faded);
+  color: var(--ink-faded);
 }

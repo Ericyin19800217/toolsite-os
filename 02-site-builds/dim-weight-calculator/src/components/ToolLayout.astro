@@ -21,33 +21,28 @@ const { title, description } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <!-- Top barcode decoration -->
-    <div class="h-1 w-full barcode-line" aria-hidden="true"></div>
+    <!-- Airmail stripe -->
+    <div class="airmail-stripe" aria-hidden="true"></div>
 
-    <header class="border-b border-[#1e3048] bg-[#0d1320]/95 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-[#d4c5b2] bg-[#fffdf5]/90 backdrop-blur sticky top-0 z-50">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <a
-          class="flex items-center gap-3 group"
+          class="flex items-center gap-2 group"
           href="/dimensional-weight-calculator/"
         >
-          <span class="grid size-8 place-items-center bg-[#f59e0b] text-sm font-bold text-[#0f1723] tracking-tight font-mono">
-            DW
-          </span>
-          <span class="text-sm font-semibold text-[#edf0f5] tracking-wide uppercase group-hover:text-[#fbbf24] transition-colors">
-            Shipping Calc
+          <span class="stamp text-[11px]">DW</span>
+          <span class="text-sm tracking-[0.06em] uppercase text-[#5c4a3a] group-hover:text-[#c41e3a] transition-colors" style="font-family:'Courier Prime',monospace">
+            Shipping Calculator
           </span>
         </a>
         <nav
           aria-label="Page sections"
-          class="flex flex-wrap items-center gap-1 text-xs font-medium tracking-widest uppercase text-[#566584]"
+          class="flex flex-wrap items-center gap-4"
         >
-          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#calculator">Calculator</a>
-          <span class="text-[#1e3048]" aria-hidden="true">/</span>
-          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#formula">Formula</a>
-          <span class="text-[#1e3048]" aria-hidden="true">/</span>
-          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#sources">Sources</a>
-          <span class="text-[#1e3048]" aria-hidden="true">/</span>
-          <a class="px-3 py-1.5 hover:text-[#f59e0b] transition-colors" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
+          <a class="nav-link" href="/dimensional-weight-calculator/#calculator">Calculator</a>
+          <a class="nav-link" href="/dimensional-weight-calculator/#formula">Formula</a>
+          <a class="nav-link" href="/dimensional-weight-calculator/#sources">Sources</a>
+          <a class="nav-link" href="/dimensional-weight-calculator/#disclaimer">Disclaimer</a>
         </nav>
       </div>
     </header>
@@ -56,8 +51,13 @@ const { title, description } = Astro.props;
       <slot />
     </main>
 
-    <!-- Bottom barcode decoration -->
-    <div class="h-1 w-full barcode-line mt-16" aria-hidden="true"></div>
+    <footer class="border-t border-[#d4c5b2] mt-16 py-6 text-center">
+      <p class="text-xs text-[#9b8c7c] tracking-wider uppercase" style="font-family:'Courier Prime',monospace">
+        Estimates only &middot; Not a carrier quote &middot; Verify with your shipper
+      </p>
+    </footer>
+
+    <div class="airmail-stripe" aria-hidden="true"></div>
 
     <FeedbackWidget client:load />
   </body>

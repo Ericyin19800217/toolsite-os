@@ -7,19 +7,15 @@ import { getFormulaByCarrier } from "../content/formulaSources";
 const formula = getFormulaByCarrier("dhl");
 ---
 
-<ToolLayout title="DHL Volumetric Weight Calculator — Divisor 5000 cm³/kg" description="Estimate DHL Express volumetric weight with the standard 5000 cm³/kg divisor. Official DHL source verified.">
-  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
-    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
-      DHL Express Volumetric Weight
-    </p>
-    <h1 class="display-font text-5xl md:text-6xl leading-none tracking-wide text-[#edf0f5]">
-      DHL Volumetric Weight
-      <span class="block text-[#f59e0b]">Calculator</span>
+<ToolLayout title="DHL Volumetric Weight Calculator" description="Estimate DHL Express volumetric weight with the standard 5000 cm³/kg divisor. Official DHL source verified.">
+  <section class="grid gap-6 pb-8 border-b border-dashed border-[#c4b5a2]">
+    <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">DHL Express &mdash; Volumetric Weight</p>
+    <h1 class="text-4xl md:text-6xl font-light italic leading-tight text-[#2c1810]">
+      DHL Volumetric Weight<br />
+      <span class="font-normal not-italic text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Calculator</span>
     </h1>
-    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
-      DHL Express uses divisor 5000 cm³/kg. DHL eCommerce uses 6000 in most markets.
-      Verified against official DHL regional sites and 2026 Service & Rate Guide.
-      Confirm with your specific contract — enterprise rates may differ.
+    <p class="max-w-2xl text-sm leading-relaxed text-[#5c4a3a] italic">
+      DHL Express uses 5000 cm&sup3;/kg. DHL eCommerce uses 6000 in most markets. Verified against official sources.
     </p>
   </section>
   <DimensionalWeightCalculator client:visible defaultCarrier="dhl" />

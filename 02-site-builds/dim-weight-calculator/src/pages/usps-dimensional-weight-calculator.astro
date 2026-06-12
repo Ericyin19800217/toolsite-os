@@ -7,19 +7,16 @@ import { getFormulaByCarrier } from "../content/formulaSources";
 const formula = getFormulaByCarrier("usps");
 ---
 
-<ToolLayout title="USPS Dimensional Weight Calculator — Divisor 166 (→139 Jul 12)" description="Estimate USPS dimensional weight. Current divisor 166, changing to 139 on July 12, 2026. Auto-switches on effective date.">
-  <section class="grid gap-6 pb-8 border-b border-[#1e3048]">
-    <p class="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#f59e0b]">
-      USPS DIM Weight — Auto-Switches Jul 12
-    </p>
-    <h1 class="display-font text-5xl md:text-6xl leading-none tracking-wide text-[#edf0f5]">
-      USPS Dimensional Weight
-      <span class="block text-[#f59e0b]">Calculator</span>
+<ToolLayout title="USPS Dimensional Weight Calculator" description="Estimate USPS dimensional weight. Divisor 166 (changing to 139 Jul 12, 2026). Auto-switches on effective date.">
+  <section class="grid gap-6 pb-8 border-b border-dashed border-[#c4b5a2]">
+    <p class="text-xs tracking-[0.15em] uppercase text-[#c41e3a] font-semibold" style="font-family:'Courier Prime',monospace">USPS &mdash; Divisor changing Jul 12, 2026</p>
+    <h1 class="text-4xl md:text-6xl font-light italic leading-tight text-[#2c1810]">
+      USPS Dimensional Weight<br />
+      <span class="font-normal not-italic text-[#c41e3a]" style="font-family:'Courier Prime',monospace">Calculator</span>
     </h1>
-    <p class="max-w-2xl text-sm leading-relaxed text-[#8899b4]">
-      Current USPS DIM divisor is <strong class="text-[#edf0f5]">166</strong>. On July 12, 2026, it changes to <strong class="text-[#f59e0b]">139</strong>.
-      This calculator automatically switches to the new divisor on that date.
-      Applies to packages over 1 cubic foot. Fractional inches rounded up.
+    <p class="max-w-2xl text-sm leading-relaxed text-[#5c4a3a] italic">
+      Current divisor: 166. Changing to 139 on July 12, 2026. Applies to packages over 1 cubic foot.
+      Fractional inches rounded up to next whole inch.
     </p>
   </section>
   <DimensionalWeightCalculator client:visible defaultCarrier="usps" />
